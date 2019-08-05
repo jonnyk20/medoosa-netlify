@@ -1,5 +1,4 @@
 export default (file, callback) => {
-  console.log("FILE", file)
   var reader = new FileReader()
   reader.onload = e => {
     var view = new DataView(e.target.result)

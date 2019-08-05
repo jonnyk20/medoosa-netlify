@@ -1,22 +1,16 @@
 import React, { useState, useRef, useEffect, Fragment } from "react"
 import * as tf from "@tensorflow/tfjs"
+import { Link } from "gatsby"
 import { getOrientation, disablePageDrag } from "../../utils"
 import BoundingBoxList from "../BoundingBoxList/BoundingBoxList"
-import ProgressBar from "../ProgressBar/ProgressBar"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
-import sampleFishPhoto from "../../images/sample-fish.jpg"
 import "./Find.scss"
 
-const url =
-  "https://jk-fish-test.s3.us-east-2.amazonaws.com/fish_mobilenet2/model.json"
-
-const FishDemo = () => {
-  useEffect(disablePageDrag)
-  const [modelLoaded, setModelLoaded] = useState(false)
-  const [model, setModel] = useState(null)
-  const [downloadProgress, setDownloadProgress] = useState(0)
+const FishDemo = ({ detectionModel }) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [inputTriggered, setInputTriggered] = useState(false)
   const [predicted, setPredicted] = useState(false)
-  const [isPredictig, setIsPredicting] = useState(false)
+  const [isPredicting, setIsPredicting] = useState(false)
   const [hiddenSrc, setHiddenSrc] = useState(null)
   const [resizedSrc, setResizedSrc] = useState(null)
   const [fail, setFail] = useState(false)
@@ -73,52 +67,21 @@ const FishDemo = () => {
       const n = i * 4
       const box = detection_boxes.values.slice(n, n + 4)
       if (detection_scores.values[i] > 0.1) {
-        console.log("SCORE", detection_scores.values[i])
         boxes.push(box)
       }
     }
     drawBoxes(boxes)
   }
 
-  const loadModel = async () => {
-    const tensors = {}
-    const tensorOrder = [
-      "raw_detection_scores",
-      "detection_scores",
-      "detection_boxes?",
-      "raw_detection_boxes?",
-      "num_detections",
-      "detection_classes",
-    ]
-    try {
-      const loadedModel = await tf.loadGraphModel(url, {
-        onProgress: downloadProgress => {
-          setDownloadProgress(downloadProgress)
-        },
-      })
-      setModel(loadedModel)
-      setModelLoaded(true)
-      // try {
-      //   const warmupResult = await loadedModel.executeAsync(
-      //     tf.zeros([1, 300, 300, 3])
-      //   )
-      //   console.log("RESUKT", warmupResult)
-      // } catch (err) {
-      //   console.log("ERROR ON TEST RUN", err)
-      // }
-    } catch (err) {
-      console.log("ERROR ON LOAD", err)
-    }
-  }
-
   const makePrediction = async () => {
     const { current: img } = rotationCanvasRef
     let predictionFailed = false
+    setFail(false)
     setIsPredicting(true)
     try {
       const tfImg = tf.browser.fromPixels(img).toFloat()
       const expanded = tfImg.expandDims(0)
-      const res = await model.executeAsync(expanded)
+      const res = await detectionModel.executeAsync(expanded)
       const detection_boxes = res[2]
       const arr = await detection_boxes.array()
       const tensors = await Promise.all(
@@ -128,7 +91,6 @@ const FishDemo = () => {
       )
       formatData(tensors)
     } catch (err) {
-      console.log("ERROR ON INFERENCE", err)
       predictionFailed = true
     }
     setPredicted(true)
@@ -137,7 +99,6 @@ const FishDemo = () => {
   }
 
   const handleLoad = () => {
-    console.log("ONLOAD 2")
     const { current: img } = hiddenRef
     const width = img.width,
       height = img.height
@@ -182,11 +143,9 @@ const FishDemo = () => {
     }
     ctx.drawImage(img, 0, 0)
     setResizedSrc(canvas.toDataURL())
-    // drawResized(img, canvas, ctx)
   }
 
   const renderCropped = box => {
-    console.log("RENDERCROPPED")
     const { current: source } = rotationCanvasRef
     const { current: target } = cropRef
     const { x, width: w, height: h } = source.getBoundingClientRect()
@@ -198,7 +157,6 @@ const FishDemo = () => {
     const F = 0
     const G = w // w original (scale)
     const H = h // h original (scale)
-    console.log("BOX", box)
     const ctx = target.getContext("2d")
     target.height = box.h // cropH
     target.width = box.w // cropW
@@ -224,21 +182,20 @@ const FishDemo = () => {
     setDivHeight(height)
     ctx.drawImage(img, 0, 0, width, height)
     setResized(true)
+    makePrediction()
   }
 
   const handleChange = event => {
     const { files } = event.target
+    console.log("FILES", files)
     if (files.length > 0) {
       const hiddenSrc = URL.createObjectURL(event.target.files[0])
       getOrientation(event.target.files[0], orientation => {
         setOrientation(orientation)
         setHiddenSrc(hiddenSrc)
       })
+      setIsLoading(false)
     }
-  }
-
-  const getSamplePhoto = () => {
-    setResizedSrc(sampleFishPhoto)
   }
 
   const reset = e => {
@@ -247,6 +204,8 @@ const FishDemo = () => {
     setResized(false)
     setPredictions([])
     setResizedSrc(null)
+    setFail(false)
+    triggerInput()
   }
 
   const triggerInput = () => {
@@ -256,10 +215,18 @@ const FishDemo = () => {
   const hidden = {
     display: "none",
   }
-  const showProgress = downloadProgress !== 0 && downloadProgress !== 1
-  const controlModifierClasses = predicted
-    ? "control--successful-detection"
-    : ""
+  const controlModifierClasses =
+    predicted && !fail ? "control--successful-detection" : ""
+  useEffect(() => {
+    disablePageDrag()
+    if (!inputTriggered) {
+      triggerInput()
+      setInputTriggered(true)
+    }
+  })
+
+  const awaitingUpload = !isLoading && !resized
+  const foundAnimals = predicted && !fail
 
   return (
     <div
@@ -288,54 +255,52 @@ const FishDemo = () => {
       />
       {resized && <div className="overlay" />}
       {predictions.length > 0 && <BoundingBoxList boxes={predictions} />}
-      <div class="control-wrapper">
+      <div className="control-wrapper">
         <div className={`control ${controlModifierClasses}`}>
-          {modelLoaded && resized && !isPredictig && !predicted && (
-            <button onClick={makePrediction} className="control__button">
-              Find Fish
-            </button>
-          )}
-          {isPredictig && <LoadingSpinner />}
-          {!modelLoaded && (
-            <button onClick={loadModel} className="control__button">
-              Load Model
-            </button>
-          )}
-          {showProgress && <ProgressBar progress={downloadProgress} />}
+          {(isLoading || isPredicting) && <LoadingSpinner />}
 
-          {modelLoaded && !isPredictig && !predicted && !resized && (
+          {isPredicting && <div className="control__info">Scanning</div>}
+
+          {awaitingUpload && (
             <Fragment>
-              <button
-                href="#"
-                onClick={triggerInput}
-                className="control__button"
-              >
-                Find Fish with <br />
-                Your Phone Camera
+              <button href="#" onClick={reset} className="button">
+                [o]
               </button>
-              <div className="separator">- OR -</div>
-              <button
-                href="#"
-                onClick={getSamplePhoto}
-                className="control__button"
-              >
-                Use a Sample Photo
-              </button>
+              <Link to="/home">
+                <button href="#" onClick={() => {}} className="button">
+                  {"<-"}
+                </button>
+              </Link>
             </Fragment>
           )}
+
           {fail && (
-            <div>
-              Failed to Find Fish <br />
-            </div>
+            <Fragment>
+              <div className="control__info">
+                Failed to Find Animals <br />
+              </div>
+              <button onClick={reset} className="button">
+                Retry
+              </button>
+              <Link to="/home">
+                <button href="#" onClick={() => {}} className="button">
+                  {"<-"}
+                </button>
+              </Link>
+            </Fragment>
           )}
 
-          {predicted && (
-            <button
-              onClick={reset}
-              className="control__button control__button--reset"
-            >
-              Reset
-            </button>
+          {foundAnimals && (
+            <Fragment>
+              <button href="#" onClick={reset} className="button">
+                Retry
+              </button>
+              <Link to="/home">
+                <button href="#" onClick={() => {}} className="button">
+                  {"<-"}
+                </button>
+              </Link>
+            </Fragment>
           )}
 
           <input

@@ -1,8 +1,8 @@
 import React from "react"
 
-import Home from "../components/Home/Home"
+import Start from "../containers/Start/Start"
 import "../index.scss"
 
-const IndexPage = () => <Home />
+const IndexPage = () => <Start />
 
 export default IndexPage

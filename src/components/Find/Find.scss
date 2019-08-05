@@ -1,5 +1,4 @@
-$color-border: rgba(74, 206, 255, 0.38);
-$color-text: rgb(156, 228, 255);
+@import '../../index.scss';
 
 body {
   margin: 0;
@@ -59,6 +58,11 @@ body {
 
 .control__input {
   display: none;
+}
+
+.control__info {
+  color: $color-text;
+  margin: 10px auto;
 }
 
 .test {

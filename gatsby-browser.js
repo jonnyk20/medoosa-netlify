@@ -6,5 +6,5 @@
 
 // You can delete this file if you're not using it
 import { scatterDots } from "./src/utils"
-// export { default as wrapRootElement } from "./src/state/ReduxWrapper"
+export { default as wrapRootElement } from "./src/redux/Provider"
 export const onClientEntry = scatterDots
