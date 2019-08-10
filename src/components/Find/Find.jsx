@@ -66,7 +66,7 @@ const FishDemo = ({ detectionModel }) => {
     for (let i = 0; i < num_detections.values[0]; i++) {
       const n = i * 4
       const box = detection_boxes.values.slice(n, n + 4)
-      if (detection_scores.values[i] > 0.1) {
+      if (detection_scores.values[i] > 0.2) {
         boxes.push(box)
       }
     }

@@ -6,7 +6,7 @@ import { setDetectionModelAction } from "../../redux/actions"
 import * as tf from "@tensorflow/tfjs"
 
 const url =
-  "https://jk-fish-test.s3.us-east-2.amazonaws.com/fish_mobilenet2/model.json"
+  "https://jk-fish-test.s3.us-east-2.amazonaws.com/animal_mobilenet/model.json"
 
 const StartContainer = () => {
   const state = useSelector(state => state)
