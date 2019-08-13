@@ -7,7 +7,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 import "./Find.scss"
 
 const FishDemo = ({ detectionModel }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const [inputTriggered, setInputTriggered] = useState(false)
   const [predicted, setPredicted] = useState(false)
   const [isPredicting, setIsPredicting] = useState(false)
@@ -187,15 +187,14 @@ const FishDemo = ({ detectionModel }) => {
 
   const handleChange = event => {
     const { files } = event.target
-    console.log("FILES", files)
     if (files.length > 0) {
       const hiddenSrc = URL.createObjectURL(event.target.files[0])
       getOrientation(event.target.files[0], orientation => {
         setOrientation(orientation)
         setHiddenSrc(hiddenSrc)
       })
-      setIsLoading(false)
     }
+    setIsUploading(false)
   }
 
   const reset = e => {
@@ -208,7 +207,15 @@ const FishDemo = ({ detectionModel }) => {
     triggerInput()
   }
 
+  const cancelUploading = () => {
+    if (isUploading) {
+      setIsUploading(false)
+    }
+  }
+
   const triggerInput = () => {
+    setIsUploading(true)
+    body.onfocus = cancelUploading
     inputRef.current.click()
   }
 
@@ -217,15 +224,17 @@ const FishDemo = ({ detectionModel }) => {
   }
   const controlModifierClasses =
     predicted && !fail ? "control--successful-detection" : ""
+  let body
   useEffect(() => {
     disablePageDrag()
+    ;({ body } = document)
     if (!inputTriggered) {
       triggerInput()
       setInputTriggered(true)
     }
   })
 
-  const awaitingUpload = !isLoading && !resized
+  const awaitingUpload = !isUploading && !resized
   const foundAnimals = predicted && !fail
 
   return (
@@ -257,8 +266,7 @@ const FishDemo = ({ detectionModel }) => {
       {predictions.length > 0 && <BoundingBoxList boxes={predictions} />}
       <div className="control-wrapper">
         <div className={`control ${controlModifierClasses}`}>
-          {(isLoading || isPredicting) && <LoadingSpinner />}
-
+          {(isUploading || isPredicting) && <LoadingSpinner />}
           {isPredicting && <div className="control__info">Scanning</div>}
 
           {awaitingUpload && (
