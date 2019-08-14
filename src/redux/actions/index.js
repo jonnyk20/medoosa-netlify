@@ -1,6 +1,11 @@
-import { SET_DETECTION_MODEL } from "./actionTypes"
+import { SET_DETECTION_MODEL, SET_CLASSIFICATION_MODEL } from "./actionTypes"
 
-export const setDetectionModelAction = detectionModel => ({
+export const setDetectionModelAction = model => ({
   type: SET_DETECTION_MODEL,
-  detectionModel,
+  payload: model,
+})
+
+export const setClassificationModelAction = model => ({
+  type: SET_CLASSIFICATION_MODEL,
+  payload: model,
 })

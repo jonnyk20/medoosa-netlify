@@ -4,14 +4,14 @@ import { useSelector } from "react-redux"
 import { navigate } from "gatsby"
 
 const FindContainer = () => {
-  const detectionModel = useSelector(state => state.models.detectionModel)
+  const models = useSelector(state => state.models)
   useEffect(() => {
-    if (detectionModel === null) {
+    if (models.detectionModel === null || models.classifiactionModel === null) {
       navigate("/")
     }
   })
 
-  return <FindComponent detectionModel={detectionModel} />
+  return <FindComponent {...models} />
 }
 
 export default FindContainer

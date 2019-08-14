@@ -6,7 +6,7 @@ import BoundingBoxList from "../BoundingBoxList/BoundingBoxList"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 import "./Find.scss"
 
-const FishDemo = ({ detectionModel }) => {
+const FishDemo = ({ detectionModel, classificationModel }) => {
   const [isUploading, setIsUploading] = useState(false)
   const [inputTriggered, setInputTriggered] = useState(false)
   const [predicted, setPredicted] = useState(false)
@@ -49,7 +49,7 @@ const FishDemo = ({ detectionModel }) => {
     })
     setPredictions(newPredictions)
     setCrops(newPredictions[0])
-    renderCropped(newPredictions[0])
+    cropForClassification(newPredictions[0])
   }
 
   const formatData = tensors => {
@@ -145,7 +145,39 @@ const FishDemo = ({ detectionModel }) => {
     setResizedSrc(canvas.toDataURL())
   }
 
-  const renderCropped = box => {
+  const getFinal = results => {
+    let predictionList = []
+    for (let i = 0; i < results.length; i++) {
+      predictionList.push({ value: results[i], index: i })
+    }
+    predictionList = predictionList.sort((a, b) => {
+      return b.value - a.value
+    })
+
+    console.log("FINAL RESULTS", predictionList)
+  }
+
+  const runClassification = async () => {
+    const { current: img } = cropRef
+    const tfImg = tf.browser.fromPixels(img).toFloat()
+    let input = tf.image.resizeBilinear(tfImg, [224, 224])
+    const offset = tf.scalar(127.5)
+    // Normalize the image
+    input = input.sub(offset).div(offset)
+
+    const global = input.expandDims(0)
+    console.log(global.shape)
+    const results = classificationModel.predict(global)
+    const ok = await results.buffer()
+
+    console.log("CLASSIFICATION", ok.values)
+    // const best = results.buffer() //.buffer().values[0]
+    // const x = await best.buffer()
+    // console.log("BEST", x.values)
+    getFinal(ok.values)
+  }
+
+  const cropForClassification = box => {
     const { current: source } = rotationCanvasRef
     const { current: target } = cropRef
     const { x, width: w, height: h } = source.getBoundingClientRect()
@@ -162,6 +194,7 @@ const FishDemo = ({ detectionModel }) => {
     target.width = box.w // cropW
 
     ctx.drawImage(source, A, B, C, D, E, F, G, H)
+    runClassification()
   }
 
   const resize = () => {

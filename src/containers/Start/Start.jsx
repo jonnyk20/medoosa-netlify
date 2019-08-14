@@ -2,31 +2,45 @@ import React, { useState } from "react"
 import StartComponent from "../../components/Start/Start"
 import { useSelector, useDispatch } from "react-redux"
 import { navigate } from "gatsby"
-import { setDetectionModelAction } from "../../redux/actions"
+import {
+  setDetectionModelAction,
+  setClassificationModelAction,
+} from "../../redux/actions"
 import * as tf from "@tensorflow/tfjs"
 
-const url =
+const DETECTION_MODEL_URL =
   "https://jk-fish-test.s3.us-east-2.amazonaws.com/animal_mobilenet/model.json"
+
+const CLASSIFICATION_MODEL_URL =
+  "https://jk-fish-test.s3.us-east-2.amazonaws.com/test_fish_classifier/model.json"
 
 const StartContainer = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-  const [downloadProgress, setDownloadProgress] = useState(0)
+  const [
+    classificationDownloadProgress,
+    setClassifiationDownloadProgress,
+  ] = useState(0)
+  const [detectionDownloadProgress, setDetectionDownloadProgress] = useState(0)
 
-  const setDetectionModel = detectionModel =>
-    dispatch(setDetectionModelAction(detectionModel))
+  const totalDownloadProgress =
+    0.6 * detectionDownloadProgress + 0.4 * classificationDownloadProgress
 
-  const loadModel = async () => {
+  const setDetectionModel = model => dispatch(setDetectionModelAction(model))
+
+  const setClassificationModel = model =>
+    dispatch(setClassificationModelAction(model))
+
+  const loadDetectionModel = async () => {
+    let model
     try {
-      const loadedModel = await tf.loadGraphModel(url, {
-        onProgress: downloadProgress => {
-          setDownloadProgress(downloadProgress)
+      model = await tf.loadGraphModel(DETECTION_MODEL_URL, {
+        onProgress: progress => {
+          setDetectionDownloadProgress(progress)
         },
       })
-      setDetectionModel(loadedModel)
-      navigate("/home")
       // try {
-      //   const warmupResult = await loadedModel.executeAsync(
+      //   const warmupResult = await model.executeAsync(
       //     tf.zeros([1, 300, 300, 3])
       //   )
       //   console.log("RESUKT", warmupResult)
@@ -36,12 +50,33 @@ const StartContainer = () => {
     } catch (err) {
       console.log("ERROR ON LOAD", err)
     }
+    console.log("DETECT READY")
+    return model
+  }
+
+  const loadClassificationModel = async () => {
+    const model = await tf.loadGraphModel(CLASSIFICATION_MODEL_URL, {
+      onProgress: progress => {
+        setClassifiationDownloadProgress(progress)
+      },
+    })
+    return model
+  }
+
+  const loadModels = async () => {
+    const detectionModel = await loadDetectionModel()
+    setDetectionModel(detectionModel)
+
+    const classificationModel = await loadClassificationModel()
+    setClassificationModel(classificationModel)
+
+    navigate("/home")
   }
 
   return (
     <StartComponent
-      setDetectionModel={loadModel}
-      downloadProgress={downloadProgress}
+      loadModels={loadModels}
+      downloadProgress={totalDownloadProgress}
     />
   )
 }
