@@ -17,7 +17,6 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
   const [resized, setResized] = useState(false)
   const [orientation, setOrientation] = useState(0)
   const [predictions, setPredictions] = useState([])
-  const [crops, setCrops] = useState([])
   const [divWidth, setDivWith] = useState("auto")
   const [divHeight, setDivHeight] = useState("auto")
   const inputRef = useRef()
@@ -44,12 +43,13 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
         y: boxY,
         w: boxW,
         h: boxH,
+        isClassified: false,
+        classification: null,
       }
       newPredictions.push(newPrediction)
     })
     setPredictions(newPredictions)
-    setCrops(newPredictions[0])
-    cropForClassification(newPredictions[0])
+    // cropForClassification(newPredictions[0])
   }
 
   const formatData = tensors => {
@@ -145,7 +145,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     setResizedSrc(canvas.toDataURL())
   }
 
-  const getFinal = results => {
+  const processPrecitions = (boxIndex, results) => {
     let predictionList = []
     for (let i = 0; i < results.length; i++) {
       predictionList.push({ value: results[i], index: i })
@@ -153,15 +153,29 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     predictionList = predictionList.sort((a, b) => {
       return b.value - a.value
     })
-
-    console.log("FINAL RESULTS", predictionList)
+    const top = predictionList[0]
+    const boxUpdates = { isClassified: true, classification: null }
+    let isClassificationFound = top.value > 0.9
+    if (isClassificationFound) {
+      console.log(`BOX #${boxIndex} corresponds to CLASS #${top.index}`)
+      boxUpdates.classification = top.index
+    } else {
+      console.log(`BOX #${boxIndex} contains no idenitifiable classes`)
+    }
+    const boxes = predictions.map(box =>
+      isClassificationFound && box.index === boxIndex
+        ? { ...box, ...boxUpdates }
+        : box
+    )
+    setPredictions(boxes)
   }
 
-  const runClassification = async () => {
+  const runClassification = async boxIndex => {
     const { current: img } = cropRef
     const tfImg = tf.browser.fromPixels(img).toFloat()
     let input = tf.image.resizeBilinear(tfImg, [224, 224])
     const offset = tf.scalar(127.5)
+
     // Normalize the image
     input = input.sub(offset).div(offset)
 
@@ -171,13 +185,11 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     const ok = await results.buffer()
 
     console.log("CLASSIFICATION", ok.values)
-    // const best = results.buffer() //.buffer().values[0]
-    // const x = await best.buffer()
-    // console.log("BEST", x.values)
-    getFinal(ok.values)
+    processPrecitions(boxIndex, ok.values)
   }
 
-  const cropForClassification = box => {
+  const startClassification = index => {
+    const box = predictions[index]
     const { current: source } = rotationCanvasRef
     const { current: target } = cropRef
     const { x, width: w, height: h } = source.getBoundingClientRect()
@@ -194,7 +206,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     target.width = box.w // cropW
 
     ctx.drawImage(source, A, B, C, D, E, F, G, H)
-    runClassification()
+    runClassification(index)
   }
 
   const resize = () => {
@@ -261,10 +273,6 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
   useEffect(() => {
     disablePageDrag()
     ;({ body } = document)
-    if (!inputTriggered) {
-      triggerInput()
-      setInputTriggered(true)
-    }
   })
 
   const awaitingUpload = !isUploading && !resized
@@ -296,7 +304,12 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
         id="adjusted-image"
       />
       {resized && <div className="overlay" />}
-      {predictions.length > 0 && <BoundingBoxList boxes={predictions} />}
+      {predictions.length > 0 && (
+        <BoundingBoxList
+          boxes={predictions}
+          startClassification={startClassification}
+        />
+      )}
       <div className="control-wrapper">
         <div className={`control ${controlModifierClasses}`}>
           {(isUploading || isPredicting) && <LoadingSpinner />}

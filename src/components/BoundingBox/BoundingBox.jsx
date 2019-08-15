@@ -1,8 +1,8 @@
 import React from "react"
 import "./BoundingBox.scss"
 
-const BoundingBox = props => {
-  const { x, y, w, h } = props.box
+const BoundingBox = ({ box, startClassification }) => {
+  const { x, y, w, h, index, isClassified } = box
   const style = {
     position: "absolute",
     left: x,
@@ -11,7 +11,15 @@ const BoundingBox = props => {
     width: w,
   }
 
-  return <div className="bounding-box" style={style}></div>
+  const handleClick = () => {
+    if (!isClassified) {
+      startClassification(index)
+    }
+  }
+
+  return (
+    <div className="bounding-box" style={style} onClick={handleClick}></div>
+  )
 }
 
 export default BoundingBox
