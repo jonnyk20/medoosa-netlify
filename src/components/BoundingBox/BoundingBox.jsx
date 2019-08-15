@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
+import { CLASSIFICATION_STATES } from "../../constants"
+
 import "./BoundingBox.scss"
 
 const BoundingBox = ({ box, startClassification }) => {
-  const { x, y, w, h, index, isClassified } = box
+  const { x, y, w, h, index, classificationState } = box
   const style = {
     position: "absolute",
     left: x,
@@ -10,15 +13,37 @@ const BoundingBox = ({ box, startClassification }) => {
     height: h,
     width: w,
   }
+  const [isClassifying, setIsClassifying] = useState(false)
+  useEffect(() => {
+    if (
+      classificationState === CLASSIFICATION_STATES.NOT_CLASSIFIED &&
+      isClassifying
+    ) {
+      startClassification(index)
+    }
+  })
 
   const handleClick = () => {
-    if (!isClassified) {
-      startClassification(index)
+    if (classificationState === CLASSIFICATION_STATES.NOT_CLASSIFIED) {
+      setIsClassifying(true)
     }
   }
 
+  if (
+    isClassifying &&
+    classificationState === CLASSIFICATION_STATES.CLASSIFIED
+  ) {
+    setIsClassifying(false)
+  }
+
+  if (index === 3) {
+    console.log("Is classifying", isClassifying)
+  }
+
   return (
-    <div className="bounding-box" style={style} onClick={handleClick}></div>
+    <div className="bounding-box" style={style} onClick={handleClick}>
+      {isClassifying && <LoadingSpinner />}
+    </div>
   )
 }
 

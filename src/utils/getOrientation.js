@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default (file, callback) => {
   var reader = new FileReader()
   reader.onload = e => {

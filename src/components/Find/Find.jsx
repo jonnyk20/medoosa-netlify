@@ -4,11 +4,12 @@ import { Link } from "gatsby"
 import { getOrientation, disablePageDrag } from "../../utils"
 import BoundingBoxList from "../BoundingBoxList/BoundingBoxList"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
+import { CLASSIFICATION_STATES } from "../../constants"
+
 import "./Find.scss"
 
 const FishDemo = ({ detectionModel, classificationModel }) => {
   const [isUploading, setIsUploading] = useState(false)
-  const [inputTriggered, setInputTriggered] = useState(false)
   const [predicted, setPredicted] = useState(false)
   const [isPredicting, setIsPredicting] = useState(false)
   const [hiddenSrc, setHiddenSrc] = useState(null)
@@ -43,7 +44,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
         y: boxY,
         w: boxW,
         h: boxH,
-        isClassified: false,
+        classificationState: CLASSIFICATION_STATES.NOT_CLASSIFIED,
         classification: null,
       }
       newPredictions.push(newPrediction)
@@ -54,12 +55,14 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
 
   const formatData = tensors => {
     const [
-      raw_detection_scores,
-      raw_detection_boxes,
+      ,
+      ,
+      // raw_detection_scores
+      // raw_detection_boxes
       detection_scores,
       detection_boxes,
-      num_detections,
-      detection_classes,
+      num_detections, // detection_classes,
+      ,
     ] = tensors
 
     const boxes = []
@@ -82,8 +85,8 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
       const tfImg = tf.browser.fromPixels(img).toFloat()
       const expanded = tfImg.expandDims(0)
       const res = await detectionModel.executeAsync(expanded)
-      const detection_boxes = res[2]
-      const arr = await detection_boxes.array()
+      // const detection_boxes = res[2]
+      // const arr = await detection_boxes.array()
       const tensors = await Promise.all(
         res.map(async (ts, i) => {
           return await ts.buffer()
@@ -154,7 +157,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
       return b.value - a.value
     })
     const top = predictionList[0]
-    const boxUpdates = { isClassified: true, classification: null }
+    const boxUpdates = { classificationState: CLASSIFICATION_STATES.CLASSIFIED }
     let isClassificationFound = top.value > 0.9
     if (isClassificationFound) {
       console.log(`BOX #${boxIndex} corresponds to CLASS #${top.index}`)
@@ -163,9 +166,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
       console.log(`BOX #${boxIndex} contains no idenitifiable classes`)
     }
     const boxes = predictions.map(box =>
-      isClassificationFound && box.index === boxIndex
-        ? { ...box, ...boxUpdates }
-        : box
+      box.index === boxIndex ? { ...box, ...boxUpdates } : box
     )
     setPredictions(boxes)
   }
@@ -192,7 +193,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     const box = predictions[index]
     const { current: source } = rotationCanvasRef
     const { current: target } = cropRef
-    const { x, width: w, height: h } = source.getBoundingClientRect()
+    const { width: w, height: h } = source.getBoundingClientRect()
     const A = box.x // x
     const B = box.y // y
     const C = w // w original
@@ -289,6 +290,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
         ref={hiddenRef}
         style={hidden}
         onLoad={handleLoad}
+        alt="hidden-upload-placeholder"
       />
       <img
         id="resized-placeholder"
@@ -296,6 +298,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
         ref={resizedRef}
         style={hidden}
         onLoad={resize}
+        alt="resized-target"
       />
       <canvas ref={hiddenCanvasRef} id="hidden-canvas" style={hidden} />
       <canvas

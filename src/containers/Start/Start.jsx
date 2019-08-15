@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import StartComponent from "../../components/Start/Start"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { navigate } from "gatsby"
+import * as tf from "@tensorflow/tfjs"
 import {
   setDetectionModelAction,
   setClassificationModelAction,
 } from "../../redux/actions"
-import * as tf from "@tensorflow/tfjs"
 
 const DETECTION_MODEL_URL =
   "https://jk-fish-test.s3.us-east-2.amazonaws.com/animal_mobilenet/model.json"
@@ -15,7 +15,6 @@ const CLASSIFICATION_MODEL_URL =
   "https://jk-fish-test.s3.us-east-2.amazonaws.com/test_fish_classifier/model.json"
 
 const StartContainer = () => {
-  const state = useSelector(state => state)
   const dispatch = useDispatch()
   const [
     classificationDownloadProgress,
@@ -50,7 +49,6 @@ const StartContainer = () => {
     } catch (err) {
       console.log("ERROR ON LOAD", err)
     }
-    console.log("DETECT READY")
     return model
   }
 
