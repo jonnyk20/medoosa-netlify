@@ -8,7 +8,11 @@ import { CLASSIFICATION_STATES } from "../../constants"
 
 import "./Find.scss"
 
-const FishDemo = ({ detectionModel, classificationModel }) => {
+const FishDemo = ({
+  detectionModel,
+  classificationModel,
+  onAnimalClassified,
+}) => {
   const [isUploading, setIsUploading] = useState(false)
   const [predicted, setPredicted] = useState(false)
   const [isPredicting, setIsPredicting] = useState(false)
@@ -162,6 +166,7 @@ const FishDemo = ({ detectionModel, classificationModel }) => {
     if (isClassificationFound) {
       console.log(`BOX #${boxIndex} corresponds to CLASS #${top.index}`)
       boxUpdates.classification = top.index
+      onAnimalClassified(top.index)
     } else {
       console.log(`BOX #${boxIndex} contains no idenitifiable classes`)
     }
