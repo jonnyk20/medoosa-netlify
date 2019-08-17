@@ -1,0 +1,43 @@
+{
+  "animals": [
+    {
+      "id": 0,
+      "image": "",
+      "name": "fish",
+      "question": "Where do I live?",
+      "options": [
+        "In the sky",
+        "In the ground",
+        "in the water",
+        "in your imagination"
+      ],
+      "answer": 2
+    },
+    {
+      "id": 1,
+      "image": "",
+      "name": "dreams",
+      "question": "Where do I live?",
+      "options": [
+        "In the sky",
+        "In the ground",
+        "in the water",
+        "in your imagination"
+      ],
+      "answer": 3
+    },
+    {
+      "id": 2,
+      "image": "",
+      "name": "earthworm",
+      "question": "Where do I live?",
+      "options": [
+        "In the sky",
+        "In the ground",
+        "in the water",
+        "in your imagination"
+      ],
+      "answer": 1
+    }
+  ]
+}

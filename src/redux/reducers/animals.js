@@ -1,10 +1,4 @@
-const initialState = [
-  {
-    // TODO: Convert to type
-    id: 1,
-    name: "clownfish",
-    image: "image.jpg",
-  },
-]
+import { animals } from "../../animal-data"
+const initialState = animals
 
 export default (state = initialState, action) => state

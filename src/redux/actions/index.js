@@ -2,6 +2,7 @@ import {
   SET_DETECTION_MODEL,
   SET_CLASSIFICATION_MODEL,
   ADD_FOUND_ANIMAL,
+  ADD_POINTS,
 } from "./actionTypes"
 
 export const setDetectionModelAction = model => ({
@@ -17,4 +18,9 @@ export const setClassificationModelAction = model => ({
 export const addFoundAnimalAction = index => ({
   type: ADD_FOUND_ANIMAL,
   payload: index,
+})
+
+export const addPointsAction = points => ({
+  type: ADD_POINTS,
+  payload: points,
 })
