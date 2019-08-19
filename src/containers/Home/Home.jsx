@@ -4,16 +4,17 @@ import { navigate } from "gatsby"
 import HomeComponent from "../../components/Home/Home"
 
 const HomeContainer = () => {
-  const detectionModelLoaded = useSelector(
-    state => !!state.models.detectionModel
-  )
+  const { detectionModelLoaded, stage } = useSelector(state => ({
+    detectionModelLoaded: !!state.models.detectionModel,
+    stage: state.medoosa.stage,
+  }))
   useEffect(() => {
     if (!detectionModelLoaded) {
       navigate("/")
     }
   })
 
-  return <HomeComponent />
+  return <HomeComponent stage={stage} />
 }
 
 export default HomeContainer
