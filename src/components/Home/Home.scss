@@ -5,12 +5,25 @@ body {
   background: black;
 }
 
+.grid {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 1000px;
+  margin: 20px auto;
+  width: 100%;
+}
+
 .cell {
   border: solid 1px white;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &--hero {
+    grid-column: 1 / -1;
+  }
 }
 
 
@@ -20,19 +33,9 @@ body {
   right: 0;
   top: 0;
   bottom: 0;
-  display: grid;
-  grid-template: 1fr / 1fr;
-  align-items: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-rows: auto 1fr 1fr 1fr 1fr auto;
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 1000px;
-  margin: 20px auto;
-  width: 100%;
-}
+
 
 .circle {
   height: 75px;
@@ -42,27 +45,12 @@ body {
   box-shadow: 0px 0px 5px #fff;
 }
 
-.cell:not(.avatar) .circle {
-  margin: 20px auto;
-}
 
 .avatar .circle {
   position: absolute;
   height: 150px;
   width: 150px
 }
-
-// .top-left,
-// .bottom-left {
-//   display: flex;
-//   justify-content: flex-end;
-// }
-
-// .top-right,
-// .bottom-right {
-//   display: flex;
-//   justify-content: flex-start;
-// }
 
 .dot {
   background-color: rgba(74, 206, 255, 0.38);
