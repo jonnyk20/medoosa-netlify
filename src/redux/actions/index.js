@@ -4,6 +4,7 @@ import {
   ADD_FOUND_ANIMAL,
   ADD_POINTS,
   SET_MOD,
+  ADVANCE_STAGE,
 } from "./actionTypes"
 
 export const setDetectionModelAction = model => ({
@@ -29,4 +30,8 @@ export const addPointsAction = points => ({
 export const setModAction = modData => ({
   type: SET_MOD,
   payload: modData,
+})
+
+export const advanceStageAction = () => ({
+  type: ADVANCE_STAGE,
 })

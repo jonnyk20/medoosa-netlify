@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Modal from "react-modal"
 import Customize from "../../components/Customize/Customize"
 import { navigate } from "gatsby"
-import { setModAction } from "../../redux/actions"
+import { setModAction, advanceStageAction } from "../../redux/actions"
 import mods from "../../components/Mods"
 
 const customStyles = {
@@ -35,8 +35,11 @@ const CustomizeContainer = () => {
         itemIndex,
       })
     )
+    dispatch(advanceStageAction())
     setIsModalOpen(true)
-    setTimeout(() => setIsEvolutionDone(true), 3000)
+    setTimeout(() => {
+      setIsEvolutionDone(true)
+    }, 3000)
   }
 
   return (
