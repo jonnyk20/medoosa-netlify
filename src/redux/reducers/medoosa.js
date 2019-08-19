@@ -1,11 +1,44 @@
+import { SET_MOD } from "../actions/actionTypes"
+
 const initialState = {
   name: "Medoosa",
   stage: 0,
-  color: 0,
-  eyes: 0,
-  mouth: 0,
-  arms: 0,
-  head: 0,
+  mods: [
+    {
+      name: "color",
+      value: 0,
+    },
+    {
+      name: "eyes",
+      value: 0,
+    },
+    {
+      name: "mouth",
+      value: 0,
+    },
+    {
+      name: "arms",
+      value: 0,
+    },
+    {
+      name: "head",
+      value: 0,
+    },
+  ],
 }
 
-export default (state = initialState, action) => state
+const updateMod = (state, updatedMod) => {
+  const mods = state.mods.map((mod, i) =>
+    i === updatedMod.modIndex ? { ...mod, value: updatedMod.itemIndex } : mod
+  )
+  return { ...state, mods }
+}
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case SET_MOD:
+      return updateMod(state, action.payload)
+    default:
+      return state
+  }
+}

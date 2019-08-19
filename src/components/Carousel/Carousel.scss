@@ -1,0 +1,35 @@
+@import './Carousel-defaults.scss';
+
+.carousel-container {
+  width: 1000px;
+  margin: auto;
+}
+
+.carousel {
+
+  // [class="slick-slide"] {
+  //   /* only apply to an element if the element has a class and the only class is 'foobar'. */
+  //   visibility: hidden;
+  // }
+  .test {
+    background: #5f9ea0;
+    border: solid 1px white;
+    color: #fff;
+    // font-size: 36px;
+    line-height: 100px;
+    margin: 15px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+
+    &:focus {
+      z-index: 1;
+    }
+  }
+}
+
+.slick-current {
+  transform: scale(1.2);
+  color: blue;
+  z-index: 2;
+}
