@@ -286,7 +286,9 @@ const FishDemo = ({
 
   const triggerInput = () => {
     setIsUploading(true)
-    // body.onfocus = cancelUploading
+    if (document.body) {
+      document.body.onfocus = cancelUploading
+    }
     inputRef.current.click()
   }
 
@@ -298,15 +300,7 @@ const FishDemo = ({
   let body
   useEffect(() => {
     // disablePageDrag()
-    // ;({ body } = document)
-    // return () => {
-    //   console.log("Unmount")
-    //   document.removeEventListener("focus", cancelUploading)
-    // }
-    return () => {
-      tf.disposeVariables()
-      console.log("UNMOUNT")
-    }
+    return tf.disposeVariables
   })
 
   const awaitingUpload = !isUploading && !resized
