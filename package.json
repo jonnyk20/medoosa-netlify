@@ -23,7 +23,8 @@
     "react-modal": "^3.9.1",
     "react-redux": "^7.1.0",
     "react-slick": "^0.25.2",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "prettier": "^1.18.2"

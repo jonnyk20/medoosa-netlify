@@ -14,11 +14,16 @@ const BoundingBox = ({ box, startClassification }) => {
     width: w,
   }
   const [isClassifying, setIsClassifying] = useState(false)
+  const [classificationPending, setClassificationPending] = useState(true)
+
   useEffect(() => {
     if (
       classificationState === CLASSIFICATION_STATES.NOT_CLASSIFIED &&
-      isClassifying
+      isClassifying &&
+      classificationPending
     ) {
+      console.log("GOING ONCE")
+      setClassificationPending(false)
       startClassification(index)
     }
   })

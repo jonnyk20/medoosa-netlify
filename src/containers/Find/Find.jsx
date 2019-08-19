@@ -15,23 +15,16 @@ const FindContainer = () => {
   })
 
   const onAnimalClassified = i => {
-    console.log("O A C", i)
-    if (!foundAnimals.has(i)) {
-      dispatch(addFoundAnimalAction(i))
-      navigate("/question", { state: { index: i } })
-      return
-    }
-    console.log("ALREADY FOUND")
+    dispatch(addFoundAnimalAction(i))
+    navigate("/question", { state: { index: i } })
   }
-  console.log("addFoundAnimalAction", addFoundAnimalAction)
-
-  console.log("foundAnimals", foundAnimals)
   const props = {
     ...models,
     onAnimalClassified,
+    foundAnimals,
   }
 
-  return <FindComponent {...props} />
+  return <FindComponent {...props} foundAnimals={foundAnimals} />
 }
 
 export default FindContainer

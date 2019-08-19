@@ -12,6 +12,7 @@ const FishDemo = ({
   detectionModel,
   classificationModel,
   onAnimalClassified,
+  foundAnimals,
 }) => {
   const [isUploading, setIsUploading] = useState(false)
   const [predicted, setPredicted] = useState(false)
@@ -89,6 +90,8 @@ const FishDemo = ({
       const tfImg = tf.browser.fromPixels(img).toFloat()
       const expanded = tfImg.expandDims(0)
       const res = await detectionModel.executeAsync(expanded)
+      console.log("RES", res)
+      // return
       // const detection_boxes = res[2]
       // const arr = await detection_boxes.array()
       const tensors = await Promise.all(
@@ -97,8 +100,14 @@ const FishDemo = ({
         })
       )
       formatData(tensors)
+      tfImg.dispose()
+      expanded.dispose()
+      console.log("RES", res)
+      tf.dispose(res)
+      // res.dispose()
     } catch (err) {
       predictionFailed = true
+      console.log("EERR", err)
     }
     setPredicted(true)
     setIsPredicting(false)
@@ -166,14 +175,21 @@ const FishDemo = ({
     if (isClassificationFound) {
       console.log(`BOX #${boxIndex} corresponds to CLASS #${top.index}`)
       boxUpdates.classification = top.index
-      onAnimalClassified(top.index)
     } else {
       console.log(`BOX #${boxIndex} contains no idenitifiable classes`)
     }
-    const boxes = predictions.map(box =>
-      box.index === boxIndex ? { ...box, ...boxUpdates } : box
-    )
-    setPredictions(boxes)
+    if (isClassificationFound && !foundAnimals.has(top.index)) {
+      console.log("OPTION A")
+      onAnimalClassified(top.index)
+      return
+    } else {
+      console.log("OPTION B")
+      const boxes = predictions.map(box =>
+        box.index === boxIndex ? { ...box, ...boxUpdates } : box
+      )
+      setPredictions(boxes)
+      return
+    }
   }
 
   const runClassification = async boxIndex => {
@@ -188,9 +204,13 @@ const FishDemo = ({
     const global = input.expandDims(0)
     console.log(global.shape)
     const results = classificationModel.predict(global)
+    tfImg.dispose()
+    input.dispose()
+    offset.dispose()
+    global.dispose()
     const ok = await results.buffer()
+    results.dispose()
 
-    console.log("CLASSIFICATION", ok.values)
     processPrecitions(boxIndex, ok.values)
   }
 
@@ -266,7 +286,7 @@ const FishDemo = ({
 
   const triggerInput = () => {
     setIsUploading(true)
-    body.onfocus = cancelUploading
+    // body.onfocus = cancelUploading
     inputRef.current.click()
   }
 
@@ -277,12 +297,20 @@ const FishDemo = ({
     predicted && !fail ? "control--successful-detection" : ""
   let body
   useEffect(() => {
-    disablePageDrag()
-    ;({ body } = document)
+    // disablePageDrag()
+    // ;({ body } = document)
+    // return () => {
+    //   console.log("Unmount")
+    //   document.removeEventListener("focus", cancelUploading)
+    // }
+    return () => {
+      tf.disposeVariables()
+      console.log("UNMOUNT")
+    }
   })
 
   const awaitingUpload = !isUploading && !resized
-  const foundAnimals = predicted && !fail
+  const localizationSuccessful = predicted && !fail
 
   return (
     <div
@@ -352,7 +380,7 @@ const FishDemo = ({
             </Fragment>
           )}
 
-          {foundAnimals && (
+          {localizationSuccessful && (
             <Fragment>
               <button href="#" onClick={reset} className="button">
                 Retry
