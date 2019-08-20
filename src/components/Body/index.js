@@ -8,10 +8,10 @@ import FinalForm from "./FinalForm/FinalForm"
 
 const bodies = [Egg, Planula, Polyp, Ephyra, Medusa, FinalForm]
 
-const BodyComponent = ({ stage = 0 }) => {
-  const Body = bodies[stage + 2]
+const BodyComponent = ({ stage = 0, modSelections }) => {
+  const Body = bodies[stage + 4]
 
-  return <Body />
+  return <Body modSelections={modSelections} />
 }
 
 export default BodyComponent

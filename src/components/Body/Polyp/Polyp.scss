@@ -1,8 +1,15 @@
 .polyp {
-  height: 250px;
-  width: 300px;
+  height: 150px;
+  width: 250px;
   animation: sway 16s infinite;
   transform-origin: 50% 100% 0;
+
+  &__eyes {
+    position: absolute;
+    width: 50px;
+    left: 100px;
+    top: 110px;
+  }
 }
 
 

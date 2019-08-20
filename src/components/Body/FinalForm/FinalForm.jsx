@@ -3,32 +3,7 @@ import mods from "../../Mods"
 
 import "./FinalForm.scss"
 
-const modSelections = [
-  {
-    name: "color",
-    value: 0,
-  },
-  {
-    name: "eyes",
-    value: 0,
-  },
-  {
-    name: "mouth",
-    value: 0,
-  },
-  {
-    name: "arms",
-    value: 0,
-  },
-  {
-    name: "head",
-    value: 0,
-  },
-]
-
-console.log("MODS", mods)
-
-const FinalForm = () => {
+const FinalForm = ({ modSelections }) => {
   const Eyes = mods.eyes[modSelections[0].value]
   return (
     <div className="final-form">
