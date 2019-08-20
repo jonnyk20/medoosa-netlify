@@ -1,6 +1,8 @@
 import React from "react"
 
-const mods = []
+import eyes from "./eyes"
+
+const testMods = []
 
 const addFakeMods = modName => {
   const arr = []
@@ -15,7 +17,9 @@ const addFakeMods = modName => {
 }
 
 ;["color", "eyes", "mouth", "arms", "hat"].forEach(name =>
-  mods.push(addFakeMods(name))
+  testMods.push(addFakeMods(name))
 )
 
-export default mods
+export default {
+  eyes,
+}

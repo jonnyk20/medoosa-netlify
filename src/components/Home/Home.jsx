@@ -8,11 +8,10 @@ const Home = ({ stage }) => (
   <Fragment>
     <div className="container">
       <div className="grid">
-        <div className="cell cell--hero">
-          <div className="circle">
-            <Body stage={stage} />
-          </div>
+        <div className="cell cell--avatar">
+          <Body stage={stage} />
         </div>
+        <div className="cell cell--progress">Progress [...]</div>
         <div className="cell">
           <div className="circle" />
         </div>
