@@ -35,16 +35,16 @@ const CustomizeContainer = () => {
         itemIndex,
       })
     )
-    dispatch(advanceStageAction())
     setIsModalOpen(true)
     setTimeout(() => {
+      dispatch(advanceStageAction())
       setIsEvolutionDone(true)
     }, 3000)
   }
 
   return (
     <div>
-      <Customize items={mods[stage + 1]} onConfirm={onConfirm} />
+      <Customize items={mods[stage]} onConfirm={onConfirm} />
       <Modal
         isOpen={isModalOpen}
         onAfterOpen={() => {}}
