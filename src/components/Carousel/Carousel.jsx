@@ -6,7 +6,7 @@ const settings = {
   centerMode: true,
   infinite: true,
   speed: 500,
-  slidesToShow: 5,
+  slidesToShow: 3,
   className: "carousel",
   swipeToSlide: true,
   focusOnSelect: true,

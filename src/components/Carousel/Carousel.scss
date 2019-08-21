@@ -6,11 +6,6 @@
 }
 
 .carousel {
-
-  // [class="slick-slide"] {
-  //   /* only apply to an element if the element has a class and the only class is 'foobar'. */
-  //   visibility: hidden;
-  // }
   .test {
     background: #5f9ea0;
     border: solid 1px white;
@@ -26,10 +21,16 @@
       z-index: 1;
     }
   }
+
+  .slick-slide * {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .slick-current {
-  transform: scale(1.2);
+  transform: scale(1.1);
   color: blue;
   z-index: 2;
 }

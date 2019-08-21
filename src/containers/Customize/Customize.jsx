@@ -44,7 +44,7 @@ const CustomizeContainer = () => {
 
   return (
     <div>
-      <Customize items={mods[stage]} onConfirm={onConfirm} />
+      <Customize items={mods[stage + 1]} onConfirm={onConfirm} />
       <Modal
         isOpen={isModalOpen}
         onAfterOpen={() => {}}
