@@ -1,8 +1,18 @@
 import React, { useState } from "react"
 import Carousel from "../Carousel/Carousel"
 import Button from "../Button/Button"
+import Body from "../Body"
 
-const Customize = ({ items, onConfirm }) => {
+import "./Customize.scss"
+
+const Customize = ({
+  items,
+  onConfirm,
+  modSelections,
+  stage,
+  isModalOpen,
+  goHome,
+}) => {
   const [selectedItem, setSelectedItem] = useState(0)
   const handeClick = () => onConfirm(selectedItem)
 
@@ -15,10 +25,16 @@ const Customize = ({ items, onConfirm }) => {
   ))
 
   return (
-    <div>
-      <div>[Medoosa]</div>
-      <Carousel items={selectionItems} afterChange={setSelectedItem} />
-      <Button onClick={handeClick}>Click this button to die</Button>
+    <div className="customize">
+      <div className="customize__avatar">
+        <Body stage={stage} modSelections={modSelections} />
+      </div>
+      <div className="customize__selection">
+        <Carousel items={selectionItems} afterChange={setSelectedItem} />
+      </div>
+      <div className="customize__confirmation">
+        <Button onClick={handeClick}>Conrifm Choice</Button>
+      </div>
     </div>
   )
 }

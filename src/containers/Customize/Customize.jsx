@@ -1,32 +1,19 @@
-import React, { useState } from "react"
+import React, { useState, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import Modal from "react-modal"
 import Customize from "../../components/Customize/Customize"
 import { navigate } from "gatsby"
 import { setModAction, advanceStageAction } from "../../redux/actions"
 import mods from "../../components/Mods"
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-}
+import Evolution from "../../components/Evolution/Evolution"
 
 const CustomizeContainer = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEvolutionDone, setIsEvolutionDone] = useState(false)
+  const [isEvolving, setIsEvolving] = useState(false)
+
   const dispatch = useDispatch()
-  const stage = useSelector(state => state.medoosa.stage)
-  const goHome = () => {
-    if (isEvolutionDone) {
-      navigate("/home")
-    }
-  }
+  const { stage, modSelections } = useSelector(state => state.medoosa)
+  const goHome = () => navigate("/home")
+
+  const onEvolve = () => dispatch(advanceStageAction())
 
   const onConfirm = itemIndex => {
     dispatch(
@@ -35,33 +22,26 @@ const CustomizeContainer = () => {
         itemIndex,
       })
     )
-    setIsModalOpen(true)
-    setTimeout(() => {
-      dispatch(advanceStageAction())
-      setIsEvolutionDone(true)
-    }, 3000)
+    setIsEvolving(true)
   }
 
   return (
-    <div>
-      <Customize items={mods[stage]} onConfirm={onConfirm} />
-      <Modal
-        isOpen={isModalOpen}
-        onAfterOpen={() => {}}
-        onRequestClose={goHome}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <div>I am a modal</div>
-        <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
-        </form>
-      </Modal>
-    </div>
+    <Fragment>
+      <Customize
+        items={mods[stage]}
+        onConfirm={onConfirm}
+        modSelections={modSelections}
+        stage={stage}
+      />
+      {isEvolving && (
+        <Evolution
+          onClose={goHome}
+          onEvolve={onEvolve}
+          modSelections={modSelections}
+          stage={stage}
+        />
+      )}
+    </Fragment>
   )
 }
 

@@ -1,9 +1,5 @@
 @import './Carousel-defaults.scss';
 
-.carousel-container {
-  width: 1000px;
-  margin: auto;
-}
 
 .carousel {
   .test {
@@ -16,14 +12,14 @@
     padding: 2%;
     position: relative;
     text-align: center;
-    min-height: 150px;
+    min-height: 50px;
 
     &:focus {
       z-index: 1;
     }
 
     .color {
-      height: 150px;
+      height: 50px;
     }
   }
 

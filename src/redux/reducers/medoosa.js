@@ -3,7 +3,7 @@ import { SET_MOD, ADVANCE_STAGE } from "../actions/actionTypes"
 const initialState = {
   name: "Medoosa",
   stage: 0,
-  mods: [
+  modSelections: [
     {
       name: "color",
       value: 0,
@@ -27,11 +27,13 @@ const initialState = {
   ],
 }
 
-const updateMod = (state, updatedMod) => {
-  const mods = state.mods.map((mod, i) =>
-    i === updatedMod.modIndex ? { ...mod, value: updatedMod.itemIndex } : mod
+const updateMod = (state, newSelection) => {
+  const modSelections = state.modSelections.map((mod, i) =>
+    i === newSelection.modIndex
+      ? { ...mod, value: newSelection.itemIndex }
+      : mod
   )
-  return { ...state, mods }
+  return { ...state, modSelections }
 }
 
 export default (state = initialState, action) => {

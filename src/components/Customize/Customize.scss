@@ -1,0 +1,23 @@
+.customize {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+
+  &__avatar {
+    display: grid;
+    justify-content: center;
+  }
+
+  &__selection {
+    width: 100%;
+    margin: auto;
+    max-width: 500px;
+    border: solid 1px white;
+  }
+
+  &__confirmation {
+    display: grid;
+    justify-content: center;
+  }
+}
