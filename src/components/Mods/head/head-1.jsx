@@ -10,14 +10,24 @@ const Head = () => (
     <title>Artboard 36 copy</title>
     <path
       d="M286.62,105.06c0,6.94-27.76,14.24-62,14.24s-62-7.32-62-14.26,27.76-12.56,62-12.56S286.62,98.12,286.62,105.06Z"
-      style="fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:5px"
+      style={{
+        fill: "#fff",
+        stroke: "#000",
+        strokeMiterlimit: 10,
+        strokeWidth: "5px",
+      }}
     />
     <ellipse
       cx="224.29"
       cy="105.61"
       rx="40.68"
       ry="5.25"
-      style="fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:5px"
+      style={{
+        fill: "#fff",
+        stroke: "#000",
+        strokeMiterlimit: 10,
+        strokeWidth: "5px",
+      }}
     />
   </svg>
 )

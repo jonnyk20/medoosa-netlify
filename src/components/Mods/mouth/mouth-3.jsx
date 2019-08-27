@@ -10,15 +10,33 @@ const Mouth = () => (
           y1="2.5"
           x2="104.33"
           y2="2.5"
-          style="fill:#fff;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:5px"
+          style={{
+            fill: "#fff",
+            stroke: "#000",
+            strokeMiterlimit: 10,
+            strokeLinecap: "round",
+            strokeWidth: "5px",
+          }}
         />
         <polygon
           points="19.63 28.99 34.92 2.5 4.33 2.5 19.63 28.99"
-          style="fill:#fff;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:5px"
+          style={{
+            fill: "#fff",
+            stroke: "#000",
+            strokeMiterlimit: 10,
+            strokeLinecap: "round",
+            strokeWidth: "5px",
+          }}
         />
         <polygon
           points="86.4 29.58 101.7 3.08 72.49 3.33 86.4 29.58"
-          style="fill:#fff;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:5px"
+          style={{
+            fill: "#fff",
+            stroke: "#000",
+            strokeMiterlimit: 10,
+            strokeLinecap: "round",
+            strokeWidth: "5px",
+          }}
         />
       </g>
     </g>

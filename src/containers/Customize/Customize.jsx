@@ -25,6 +25,7 @@ const CustomizeContainer = () => {
     setIsEvolving(true)
   }
   console.log("SELECTIONS", modSelections)
+  console.log({ mods, stage })
 
   return (
     <Fragment>
