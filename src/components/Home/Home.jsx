@@ -4,30 +4,7 @@ import Body from "../Body"
 
 import "./Home.scss"
 
-const modSelections = [
-  {
-    name: "color",
-    value: 0,
-  },
-  {
-    name: "eyes",
-    value: 0,
-  },
-  {
-    name: "mouth",
-    value: 0,
-  },
-  {
-    name: "arms",
-    value: 0,
-  },
-  {
-    name: "head",
-    value: 0,
-  },
-]
-
-const Home = ({ stage }) => (
+const Home = ({ stage, modSelections }) => (
   <Fragment>
     <div className="container">
       <div className="grid">

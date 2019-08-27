@@ -4,9 +4,10 @@ import { navigate } from "gatsby"
 import HomeComponent from "../../components/Home/Home"
 
 const HomeContainer = () => {
-  const { detectionModelLoaded, stage } = useSelector(state => ({
+  const { detectionModelLoaded, stage, modSelections } = useSelector(state => ({
     detectionModelLoaded: !!state.models.detectionModel,
     stage: state.medoosa.stage,
+    modSelections: state.medoosa.modSelections,
   }))
   useEffect(() => {
     if (!detectionModelLoaded) {
@@ -14,7 +15,7 @@ const HomeContainer = () => {
     }
   })
 
-  return <HomeComponent stage={stage} />
+  return <HomeComponent stage={stage} modSelections={modSelections} />
 }
 
 export default HomeContainer

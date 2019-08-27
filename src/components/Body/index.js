@@ -10,6 +10,8 @@ const bodies = [Egg, Planula, Polyp, Ephyra, Medusa, FinalForm]
 
 const BodyComponent = ({ stage = 0, modSelections }) => {
   const Body = bodies[stage]
+  console.log("BODY", Body)
+  console.log("modSelections >>>>", modSelections)
 
   return <Body modSelections={modSelections} />
 }

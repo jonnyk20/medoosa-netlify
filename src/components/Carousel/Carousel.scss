@@ -2,7 +2,7 @@
 
 
 .carousel {
-  .test {
+  .carousel__item {
     background: #5f9ea0;
     border: solid 1px white;
     color: #fff;
@@ -34,4 +34,9 @@
   transform: scale(1.1);
   color: blue;
   z-index: 2;
+
+  .carousel__item {
+
+    border-width: 3px;
+  }
 }

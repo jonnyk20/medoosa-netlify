@@ -18,7 +18,13 @@ const Carousel = ({ items, afterChange }) => (
   <div>
     <div className="carousel-container">
       <Slider {...settings} afterChange={afterChange}>
-        {items}
+        {items.map((Item, i) => (
+          <div key={`${i}-${i}`}>
+            <div className="carousel__item">
+              <Item />
+            </div>
+          </div>
+        ))}
       </Slider>
     </div>
   </div>
