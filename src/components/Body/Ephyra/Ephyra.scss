@@ -3,11 +3,28 @@
   height: 300px;
   animation: float 6s ease-in-out infinite;
 
-  .ephyra__eyes {
+  &__eyes {
     position: absolute;
-    width: 75px;
-    left: 110px;
     top: 120px;
+    width: 100%;
+
+    .eyes {
+      width: 75px;
+      margin: auto;
+    }
+  }
+
+  &__mouth {
+    position: absolute;
+    top: 150px;
+    width: 100%;
+
+    .mouth {
+      margin: auto;
+      display: block;
+      height: 100px;
+      width: 50px;
+    }
   }
 }
 

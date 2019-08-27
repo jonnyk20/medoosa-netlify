@@ -11,7 +11,6 @@ const Polyp = ({ modSelections }) => {
       <div className="polyp__eyes">
         <Eyes />
       </div>
-      =
       <svg
         id="Layer_1"
         data-name="Layer 1"

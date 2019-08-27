@@ -1,13 +1,13 @@
 import React from "react"
 
-const colors = [
+export const colors = [
   "#FFFFFF",
-  "#0000FF",
-  "#FF0000",
-  "#FFFF00",
-  "#00FF00",
-  "#6600FF",
-  "#FF6600",
+  "#78caff",
+  "#80ff9e",
+  "#f09aff",
+  "#ffa0a0",
+  "#fff6a5",
+  "#ffd863",
 ]
 
 const addColor = color => () => {

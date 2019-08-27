@@ -1,7 +1,7 @@
 import React from "react"
 
 const Eyes = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103 41.33">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103 30">
     <title>Asset 96</title>
     <g id="Layer_2" data-name="Layer 2">
       <g id="Layer_1-2" data-name="Layer 1">
@@ -17,7 +17,7 @@ const Eyes = () => (
         <path
           d="M55.21,19.11,69.45,29.42c3.94,2.19,10.15,6.41,14.68,4.91C94.7,30.84,96.34,16.66,96.89,10.86c.24-2.55-1.65-4.71-5.22-4.71H11.88c-3,0-5.4,1.79-5.25,3.93.4,5.69,2.69,20.6,13.75,24.25,4.54,1.5,9.9-3.72,13.84-5.91L48,19.13A8.81,8.81,0,0,1,55.21,19.11Z"
           style={{
-            fill: "#fff",
+            fill: "currentColor",
             stroke: "#000",
             strokeMiterlimit: "10",
             strokeWidth: "3px",

@@ -18,7 +18,7 @@ const Customize = ({
 }) => {
   const [selectedItem, setSelectedItem] = useState(0)
   const handeClick = () => onConfirm(selectedItem)
-  console.log("ITEKs", items)
+  console.log("ITEKs", modSelections)
   return (
     <div className="customize">
       <div className="customize__avatar">

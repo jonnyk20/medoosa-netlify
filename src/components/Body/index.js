@@ -1,4 +1,5 @@
 import React from "react"
+import { colors } from "../Mods/colors"
 import Egg from "./Egg/Egg"
 import Planula from "./Planula/Planula"
 import Polyp from "./Polyp/Polyp"
@@ -10,10 +11,14 @@ const bodies = [Egg, Planula, Polyp, Ephyra, Medusa, FinalForm]
 
 const BodyComponent = ({ stage = 0, modSelections }) => {
   const Body = bodies[stage]
-  console.log("BODY", Body)
+  const color = colors[modSelections[0].value]
   console.log("modSelections >>>>", modSelections)
 
-  return <Body modSelections={modSelections} />
+  return (
+    <div className="body" style={{ color }}>
+      <Body modSelections={modSelections} />
+    </div>
+  )
 }
 
 export default BodyComponent

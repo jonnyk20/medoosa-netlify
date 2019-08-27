@@ -1,14 +1,27 @@
 import React from "react"
-import { eyes } from "../../Mods"
+import { eyes, mouth, arms, head } from "../../Mods"
 
 import "./FinalForm.scss"
 
 const FinalForm = ({ modSelections }) => {
-  const Eyes = eyes[modSelections[0].value]
+  const Eyes = eyes[modSelections[1].value]
+  const Mouth = mouth[modSelections[2].value]
+  const Arms = arms[modSelections[3].value]
+  const Head = head[modSelections[4].value]
+
   return (
     <div className="final-form">
+      <div className="final-form__arms">
+        <Arms />
+      </div>
       <div className="final-form__eyes">
         <Eyes />
+      </div>
+      <div className="final-form__mouth">
+        <Mouth />
+      </div>
+      <div className="final-form__head">
+        <Head />
       </div>
       <svg
         id="Layer_1"
