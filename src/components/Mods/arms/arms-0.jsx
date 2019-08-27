@@ -8,7 +8,7 @@ const Arms = () => (
         <path
           d="M65,5H5.43s7.18,86.06,51.64,86.06C57.07,91.06,39.86,22.93,65,5Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -18,7 +18,7 @@ const Arms = () => (
         <path
           d="M57.07,91.06C56.35,87.47,24.2,64.52,40.16,5"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -28,7 +28,7 @@ const Arms = () => (
         <path
           d="M128.45,5H68.93s7.17,86.06,51.63,86.06C120.56,91.06,103.35,22.93,128.45,5Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -38,7 +38,7 @@ const Arms = () => (
         <path
           d="M120.56,91.06C119.84,87.47,87.7,64.52,103.65,5"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -48,7 +48,7 @@ const Arms = () => (
         <path
           d="M132.42,5h59.52s-7.17,86.06-51.63,86.06C140.31,91.06,157.52,22.93,132.42,5Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -58,7 +58,7 @@ const Arms = () => (
         <path
           d="M140.31,91.06C141,87.47,173.17,64.52,157.22,5"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -68,7 +68,7 @@ const Arms = () => (
         <path
           d="M195.91,5h59.52s-7.17,86.06-51.63,86.06C203.8,91.06,221,22.93,195.91,5Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -78,7 +78,7 @@ const Arms = () => (
         <path
           d="M203.8,91.06c.72-3.59,32.86-26.54,16.91-86.06"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",

@@ -10,7 +10,7 @@ const initialState = {
     },
     {
       name: "eyes",
-      value: 2,
+      value: 0,
     },
     {
       name: "mouth",
@@ -18,11 +18,11 @@ const initialState = {
     },
     {
       name: "arms",
-      value: 0,
+      value: 4,
     },
     {
       name: "head",
-      value: 2,
+      value: 4,
     },
   ],
 }

@@ -15,6 +15,10 @@ const Head = () => (
       height="41.11"
       rx="4.93"
       ry="4.93"
+      style={{
+        stroke: "white",
+        strokeWidth: "3px",
+      }}
     />
     <rect
       x="189.52"
@@ -23,6 +27,10 @@ const Head = () => (
       height="9.61"
       rx="2.75"
       ry="2.75"
+      style={{
+        stroke: "white",
+        strokeWidth: "3px",
+      }}
     />
   </svg>
 )

@@ -8,7 +8,7 @@ const Arms = () => (
         <path
           d="M66.45,5c-12.56,9.05-38,38-28,65,21.94,59.22,9,71.77-2.46,70.49a9.91,9.91,0,0,1-8.65-10.85c.95-10.3.26-30-15.89-54.64-19-29,10-70,10-70Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -18,7 +18,7 @@ const Arms = () => (
         <path
           d="M139.79,5c-12.57,9.05-38,38-28,65,21.93,59.22,9,71.77-2.47,70.49a9.91,9.91,0,0,1-8.65-10.85c1-10.3.27-30-15.88-54.64-19-29,10-70,10-70Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -28,7 +28,7 @@ const Arms = () => (
         <path
           d="M153.67,5c12.56,9.05,38,38,28,65-21.94,59.22-9,71.77,2.46,70.49a9.91,9.91,0,0,0,8.65-10.85c-.95-10.3-.26-30,15.89-54.64,19-29-10-70-10-70Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",
@@ -38,7 +38,7 @@ const Arms = () => (
         <path
           d="M227,5c12.57,9.05,38,38,28,65-21.93,59.22-9.05,71.77,2.46,70.49a9.92,9.92,0,0,0,8.66-10.85c-.95-10.3-.27-30,15.88-54.64,19-29-10-70-10-70Z"
           style={{
-            fill: "#fff",
+            fill: "currentcolor",
             stroke: "#000",
             strokeMiterlimit: 10,
             strokeLinecap: "round",

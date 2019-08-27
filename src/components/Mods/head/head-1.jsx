@@ -11,7 +11,7 @@ const Head = () => (
     <path
       d="M286.62,105.06c0,6.94-27.76,14.24-62,14.24s-62-7.32-62-14.26,27.76-12.56,62-12.56S286.62,98.12,286.62,105.06Z"
       style={{
-        fill: "#fff",
+        fill: "yellow",
         stroke: "#000",
         strokeMiterlimit: 10,
         strokeWidth: "5px",
@@ -23,7 +23,7 @@ const Head = () => (
       rx="40.68"
       ry="5.25"
       style={{
-        fill: "#fff",
+        fill: "black",
         stroke: "#000",
         strokeMiterlimit: 10,
         strokeWidth: "5px",

@@ -30,9 +30,9 @@
 
   &__arms {
     position: absolute;
-    top: 195px;
+    top: 190px;
     width: 100%;
-    z-index: 0;
+    z-index: -1;
 
     .arms {
       margin: auto;
