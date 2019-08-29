@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { MdDone } from "react-icons/md"
+import { MdDone, MdExpandMore } from "react-icons/md"
 import Carousel from "../Carousel/Carousel"
 import Button from "../Button/Button"
 import Body from "../Body"
@@ -25,7 +25,14 @@ const Customize = ({
         <Body stage={stage} modSelections={modSelections} />
       </div>
       <div className="customize__selection">
-        <Carousel items={items} afterChange={setSelectedItem} />
+        <div className="icon">
+          <MdExpandMore />
+        </div>
+        <Carousel
+          items={items}
+          afterChange={setSelectedItem}
+          initialSlide={(modSelections[stage] || {}).value}
+        />
       </div>
       <div className="customize__confirmation">
         <Button onClick={handeClick}>

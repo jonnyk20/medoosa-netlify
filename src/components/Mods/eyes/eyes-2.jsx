@@ -2,7 +2,7 @@ import React from "react"
 
 const Eyes = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30.26">
-    <title>Asset 99</title>
+    <title>Eyes 2</title>
     <g id="Layer_2" data-name="Layer 2">
       <g id="Layer_1-2" data-name="Layer 1">
         <path d="M43.84,14.56c-.15.51-1,4.2-1.19,4.73a15.62,15.62,0,0,1-14.9,11H14.56A12.36,12.36,0,0,1,3.08,22.51C1.68,19,0,15.19,0,11.92.06,4.69,3.63,3,6.78,1.81,14.32-1.11,26.34,0,34.56,1.6,41.52,2.93,45.83,7.77,43.84,14.56Z" />

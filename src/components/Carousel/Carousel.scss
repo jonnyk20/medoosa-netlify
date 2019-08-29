@@ -36,7 +36,17 @@
   z-index: 2;
 
   .carousel__item {
-
     border-width: 3px;
+    animation: pulse 1s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(82, 223, 255, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 0 15px rgba(82, 223, 255, 0);
   }
 }

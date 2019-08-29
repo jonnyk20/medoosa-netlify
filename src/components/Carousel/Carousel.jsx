@@ -14,10 +14,14 @@ const settings = {
   centerPadding: "60px",
 }
 
-const Carousel = ({ items, afterChange }) => (
+const Carousel = ({ items, afterChange, initialSlide = 0 }) => (
   <div>
     <div className="carousel-container">
-      <Slider {...settings} afterChange={afterChange}>
+      <Slider
+        {...settings}
+        initialSlide={initialSlide}
+        afterChange={afterChange}
+      >
         {items.map((Item, i) => (
           <div key={`${i}-${i}`}>
             <div className="carousel__item">
