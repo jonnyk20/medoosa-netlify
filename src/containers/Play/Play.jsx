@@ -1,6 +1,8 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import PlayComponent from "../../components/Play/Play"
+import formatFrames from "../../utils/formatFrames"
+import video1Frames from '../../data/frames/video1'
 
 const PlayContainer = () => {
   const { stage, modSelections } = useSelector(state => ({
@@ -9,7 +11,9 @@ const PlayContainer = () => {
     modSelections: state.medoosa.modSelections,
   }))
 
-  return <PlayComponent stage={stage} modSelections={modSelections} />
+  const frames = formatFrames(video1Frames)
+
+  return <PlayComponent stage={stage} modSelections={modSelections} frames={frames} />
 }
 
 export default PlayContainer

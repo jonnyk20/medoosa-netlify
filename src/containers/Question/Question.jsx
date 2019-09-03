@@ -1,6 +1,6 @@
 import React from "react"
 import Question from "../../components/Question/Question"
-import animals from "../../animal-data"
+import animals from "../../data/animal-data"
 import { useDispatch } from "react-redux"
 import { addPointsAction } from "../../redux/actions"
 
