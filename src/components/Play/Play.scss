@@ -27,4 +27,13 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  &__target {
+    display: grid;
+    align-items: center;
+
+    img {
+      width: 100%;
+    }
+  }
 }

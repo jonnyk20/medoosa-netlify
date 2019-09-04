@@ -3,7 +3,6 @@ import { eyes } from "../../Mods"
 import "./Polyp.scss"
 
 const Polyp = ({ modSelections }) => {
-  console.log("modSelections", modSelections)
   const Eyes = eyes[modSelections[1].value]
 
   return (

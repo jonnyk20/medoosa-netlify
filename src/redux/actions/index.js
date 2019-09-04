@@ -5,6 +5,7 @@ import {
   ADD_POINTS,
   SET_MOD,
   ADVANCE_STAGE,
+  SET_TARGET,
 } from "./actionTypes"
 
 export const setDetectionModelAction = model => ({
@@ -34,4 +35,9 @@ export const setModAction = modData => ({
 
 export const advanceStageAction = () => ({
   type: ADVANCE_STAGE,
+})
+
+export const setTargetAction = targetIndex => ({
+  type: SET_TARGET,
+  payload: targetIndex,
 })

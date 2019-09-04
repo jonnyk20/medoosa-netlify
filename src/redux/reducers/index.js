@@ -4,6 +4,7 @@ import animals from "./animals"
 import foundAnimals from "./foundAnimals"
 import medoosa from "./medoosa"
 import points from "./points"
+import target from "./target"
 
 export default combineReducers({
   models,
@@ -11,4 +12,5 @@ export default combineReducers({
   foundAnimals,
   medoosa,
   points,
+  target,
 })

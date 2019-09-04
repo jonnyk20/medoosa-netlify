@@ -3,7 +3,9 @@ import YouTube from "react-youtube"
 import "./Play.scss"
 import Box from "../Box/Box"
 import Body from "../Body"
-import getVideoDimensions from "../..//utils/get-video-dimensions"
+import { getVideoDimensions } from "../../utils"
+
+const videoId = "4a2cSvTph0M"
 
 const labels = [
   "blue tang",
@@ -23,8 +25,22 @@ const argMax = array =>
     .call(array, (x, i) => [x, i])
     .reduce((r, a) => (a[0] > r[0] ? a : r))[1]
 
-const getClassification = arr =>
-  arr.length === 0 ? "nothing" : labels[argMax(arr)]
+const getClassification = arr => {
+  if (arr.length === 0) {
+    return {
+      label: "nothing",
+      index: -1,
+    }
+  }
+
+  const labelIndex = argMax(arr)
+  const score = arr[labelIndex]
+
+  return {
+    labelIndex,
+    score,
+  }
+}
 
 const isBeingClicked = (bounds, box, clickTarget) => {
   const { top, left } = bounds
@@ -39,7 +55,7 @@ const isBeingClicked = (bounds, box, clickTarget) => {
   return isWithinBounds
 }
 
-const Play = ({ frames, stage, modSelections }) => {
+const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [video, setVideo] = useState(null)
   const [videoDimensions, setVideoDimensions] = useState({})
   const [boxesVisible, setBoxVisible] = useState(false)
@@ -49,7 +65,7 @@ const Play = ({ frames, stage, modSelections }) => {
   useEffect(() => {
     const dimensions = getVideoDimensions(window.innerWidth)
     setVideoDimensions(dimensions)
-  }, [videoDimensions])
+  }, [])
 
   const { width: videoWidth, height: videoHeight } = videoDimensions
 
@@ -60,7 +76,7 @@ const Play = ({ frames, stage, modSelections }) => {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
       loop: 1,
-      playlist: "bIs1qzUbaR8",
+      playlist: videoId,
       enablejsapi: 1,
     },
   }
@@ -79,6 +95,7 @@ const Play = ({ frames, stage, modSelections }) => {
   }
 
   const drawBoxes = (frameIndex, { clientX, clientY }) => {
+    console.log("CLICK")
     const { current: canvas } = videoRef
     const OK = canvas.getBoundingClientRect()
 
@@ -88,7 +105,7 @@ const Play = ({ frames, stage, modSelections }) => {
     let boxToRender = null
     boxes.forEach((item, i) => {
       const topBox = item.coordinates
-      const classification = getClassification(item.classification)
+      const { labelIndex, score } = getClassification(item.classification)
       const topLeft = [topBox[1] * videoWidth, topBox[0] * videoHeight]
       const bottomRight = [topBox[3] * videoWidth, topBox[2] * videoHeight]
       const boxW = bottomRight[0] - topLeft[0]
@@ -102,22 +119,27 @@ const Play = ({ frames, stage, modSelections }) => {
         width: boxW,
       }
       const shouldRender = isBeingClicked(OK, boxCoords, { clientX, clientY })
+
       if (shouldRender) {
-        console.log("classification", classification)
         boxToRender = {
           left: boxX,
           top: boxY,
           height: boxH,
           width: boxW,
           key: `box-${i}`,
+          labelIndex,
+          score,
         }
       }
     })
-    setTargetBox(boxToRender)
-    setBoxVisible(true)
-    setTimeout(() => {
-      setBoxVisible(false)
-    }, 100)
+    if (!!boxToRender) {
+      onHitTarget(boxToRender.labelIndex)
+      setTargetBox(boxToRender)
+      setBoxVisible(true)
+      setTimeout(() => {
+        setBoxVisible(false)
+      }, 100)
+    }
   }
 
   return (
@@ -132,7 +154,7 @@ const Play = ({ frames, stage, modSelections }) => {
       >
         {boxesVisible && !!targetBox && <Box {...targetBox} />}
         {videoWidth && (
-          <YouTube videoId="bIs1qzUbaR8" opts={opts} onReady={onReady} />
+          <YouTube videoId={videoId} opts={opts} onReady={onReady} />
         )}
         <div
           className="overlay"
@@ -142,7 +164,16 @@ const Play = ({ frames, stage, modSelections }) => {
       <div className="play__avatar">
         <Body stage={stage} modSelections={modSelections} />
       </div>
-      <div className="play__target">[]</div>
+      <div className="play__target">
+        {targetAnimal && (
+          <img
+            src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
+              " ",
+              "-"
+            )}.jpg`}
+          />
+        )}
+      </div>
     </div>
   )
 }
