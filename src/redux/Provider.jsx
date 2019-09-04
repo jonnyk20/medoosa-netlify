@@ -9,7 +9,10 @@ import {
 import logger from "redux-logger"
 import rootReducer from "./reducers"
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancer =
+  typeof window !== "undefined"
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose
 
 const createStore = () =>
   reduxCreateStore(rootReducer, composeEnhancer(applyMiddleware(logger)))

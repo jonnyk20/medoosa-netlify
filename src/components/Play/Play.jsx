@@ -133,12 +133,18 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       }
     })
     if (!!boxToRender) {
-      onHitTarget(boxToRender.labelIndex)
-      setTargetBox(boxToRender)
+      const isTarget = boxToRender.labelIndex === targetAnimal.id
+      if (isTarget) {
+        onHitTarget(boxToRender.labelIndex)
+      }
+      const targetBox = { isTarget, ...boxToRender } // used to show green or red
+      setTargetBox(targetBox)
       setBoxVisible(true)
       setTimeout(() => {
         setBoxVisible(false)
       }, 100)
+    } else {
+      console.log("RENDER MISS CIRCLE")
     }
   }
 

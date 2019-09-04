@@ -25,26 +25,12 @@ const PlayContainer = () => {
   const targetAnimal = stage < 5 ? animals[target] : null
 
   const onHitTarget = hitTargetIndex => {
-    if (stage >= 5) {
-      return
-    }
-    switch (hitTargetIndex) {
-      case -1:
-        console.log("NOTHING")
-        break
-      case target:
-        dispatch(addFoundAnimalAction(hitTargetIndex))
-
-        const animalsToIgnore = [...Array.from(foundAnimals), hitTargetIndex]
-        const availableAnimals = getFilteredTargetList(animalsToIgnore)
-        const nextAnimal = getRandomItem(availableAnimals)
-        dispatch(setTargetAction(nextAnimal))
-        dispatch(advanceStageAction())
-        break
-      default:
-        console.log("WRONG")
-        break
-    }
+    dispatch(addFoundAnimalAction(hitTargetIndex))
+    const animalsToIgnore = [...Array.from(foundAnimals), hitTargetIndex]
+    const availableAnimals = getFilteredTargetList(animalsToIgnore)
+    const nextAnimal = getRandomItem(availableAnimals)
+    dispatch(setTargetAction(nextAnimal))
+    dispatch(advanceStageAction())
   }
 
   return (
