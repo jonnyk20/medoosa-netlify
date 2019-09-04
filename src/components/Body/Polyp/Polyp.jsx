@@ -15,7 +15,7 @@ const Polyp = ({ modSelections }) => {
         id="Layer_1"
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1000 1000"
+        viewBox="200 100 600 600"
       >
         <title>Artboard 25</title>
         <path

@@ -1,17 +1,30 @@
 .play {
   text-align: center;
-}
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 
-.video-container {
-  position: relative;
-  margin: auto;
-}
+  &__video {
+    position: relative;
+    margin: auto;
+    grid-column: 1 / -1;
 
-.overlay {
-  background: #87ceeb2b;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+    .overlay {
+      background: #87ceeb2b;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+
+  &__avatar,
+  &__target {
+    border: solid 1px white;
+  }
+
+  &__avatar {
+    display: flex;
+    justify-content: flex-end;
+  }
 }

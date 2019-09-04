@@ -1,57 +1,60 @@
 .final-form {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   position: relative;
   animation: float 6s ease-in-out infinite;
 
-  &__eyes {
-    position: absolute;
-    top: 120px;
-    width: 100%;
-
-    .eyes {
-      width: 75px;
-      margin: auto;
-    }
-  }
-
-  &__mouth {
-    position: absolute;
-    top: 150px;
-    width: 100%;
-
-    .mouth {
-      margin: auto;
-      display: block;
-      height: 100px;
-      width: 50px;
-    }
-  }
-
-  &__arms {
-    position: absolute;
-    top: 190px;
-    width: 100%;
-    z-index: -1;
-
-    .arms {
-      margin: auto;
-      display: block;
-      width: 125px;
-    }
-  }
-
   &__head {
     position: absolute;
-    top: 72px;
+    top: -1%;
     width: 100%;
     z-index: 0;
 
     .head {
       margin: auto;
       display: block;
-      width: 125px;
-      transform: scale(2);
+    }
+  }
+
+  &__eyes {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 37%;
+    width: 25%;
+    margin: auto;
+
+    .eyes {
+      margin: auto;
+    }
+  }
+
+  &__mouth {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 45%;
+    width: 20%;
+
+    .mouth {
+      margin: auto;
+      display: block;
+    }
+  }
+
+  &__arms {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 60%;
+    width: 50%;
+    z-index: -1;
+
+    .arms {
+      margin: auto;
+      display: block;
     }
   }
 }

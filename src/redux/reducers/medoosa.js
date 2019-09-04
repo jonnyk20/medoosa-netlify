@@ -2,7 +2,7 @@ import { SET_MOD, ADVANCE_STAGE } from "../actions/actionTypes"
 
 const initialState = {
   name: "Medoosa",
-  stage: 0,
+  stage: 2,
   modSelections: [
     {
       name: "color",

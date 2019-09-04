@@ -6,6 +6,7 @@ import Polyp from "./Polyp/Polyp"
 import Ephyra from "./Ephyra/Ephyra"
 import Medusa from "./Medusa/Medusa"
 import FinalForm from "./FinalForm/FinalForm"
+import "./Body.scss"
 
 const bodies = [Egg, Planula, Polyp, Ephyra, Medusa, FinalForm]
 

@@ -1,14 +1,20 @@
 .polyp {
-  height: 150px;
-  width: 250px;
+  height: 100px;
+  width: 100px;
   animation: sway 16s infinite;
   transform-origin: 50% 100% 0;
 
   &__eyes {
     position: absolute;
-    width: 50px;
-    left: 100px;
-    top: 110px;
+    left: 0;
+    right: 0;
+    top: 47%;
+    width: 30%;
+    margin: auto;
+
+    .eyes {
+      margin: auto;
+    }
   }
 }
 

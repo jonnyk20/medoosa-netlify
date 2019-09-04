@@ -11,8 +11,8 @@ const FinalForm = ({ modSelections }) => {
 
   return (
     <div className="final-form">
-      <div className="final-form__arms">
-        <Arms />
+      <div className="final-form__head">
+        <Head />
       </div>
       <div className="final-form__eyes">
         <Eyes />
@@ -20,8 +20,8 @@ const FinalForm = ({ modSelections }) => {
       <div className="final-form__mouth">
         <Mouth />
       </div>
-      <div className="final-form__head">
-        <Head />
+      <div className="final-form__arms">
+        <Arms />
       </div>
       <svg
         id="Layer_1"
