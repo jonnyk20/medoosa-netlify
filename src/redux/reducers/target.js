@@ -1,8 +1,6 @@
-import getFilteredTargetList from "../../data/getFilteredTargetList"
-import { getRandomItem } from "../../utils"
 import { SET_TARGET } from "../actions/actionTypes"
 
-const intialState = getRandomItem(getFilteredTargetList())
+const intialState = 0
 
 export default (state = intialState, action) => {
   switch (action.type) {

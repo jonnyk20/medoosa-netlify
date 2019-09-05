@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import StartComponent from "../../components/Start/Start"
 import { useSelector, useDispatch } from "react-redux"
 import { setModsAction, setTargetAction } from "../../redux/actions"
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import getFilteredTargetList from "../../data/getFilteredTargetList"
 import { getRandomItem } from "../../utils"
 import mods from "../../components/Mods"
@@ -24,14 +25,18 @@ const Start = () => {
       ...selection,
       value: initialValues[i],
     }))
-    setTargetAction(initialTarget)
-    setModsAction(initialModsSelections)
+    dispatch(setTargetAction(initialTarget))
+    dispatch(setModsAction(initialModsSelections))
     setIsInitialized(true)
   }, [])
 
   return isInitialized ? (
     <StartComponent stage={stage} modSelections={modSelections} />
-  ) : null
+  ) : (
+    <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
+      <LoadingSpinner />
+    </div>
+  )
 }
 
 export default Start
