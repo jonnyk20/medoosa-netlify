@@ -1,8 +1,8 @@
 import React from "react"
 
-import Start from "../containers/Start/Start"
+import Play from "../containers/Play/Play"
 import "../index.scss"
 
-const IndexPage = () => <Start />
+const IndexPage = () => <Play />
 
 export default IndexPage

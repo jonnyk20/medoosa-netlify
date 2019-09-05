@@ -64,6 +64,13 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [targetBox, setTargetBox] = useState([])
   const [spot, setSpot] = useState(null)
   const [isEvolving, setIsEvolving] = useState(false)
+  const [playerState, setPlayerState] = useState(-1)
+  // -1 – unstarted
+  // 0 – ended
+  // 1 – playing
+  // 2 – paused
+  // 3 – buffering
+  // 5 – video cued
   const videoRef = useRef()
 
   useEffect(() => {
@@ -78,7 +85,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
     width: videoWidth,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
+      // autoplay: 1,
       loop: 1,
       playlist: videoId,
       enablejsapi: 1,
@@ -88,7 +95,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
 
   const onReady = e => {
     const vid = e.target
-    vid.playVideo()
+    // vid.playVideo()
     setVideo(vid)
   }
 
@@ -170,6 +177,11 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
     }, 500)
   }
 
+  const onPlayerStateChange = e => {
+    setPlayerState(e.data)
+  }
+  console.log("playerState", playerState)
+
   return (
     <div onClick={handleClick} className="play">
       {spot && <Spot {...spot} />}
@@ -183,31 +195,51 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       >
         {boxesVisible && !!targetBox && <Box {...targetBox} />}
         {videoWidth && (
-          <YouTube videoId={videoId} opts={opts} onReady={onReady} />
+          <YouTube
+            videoId={videoId}
+            opts={opts}
+            onReady={onReady}
+            onStateChange={onPlayerStateChange}
+          />
         )}
-        <div
-          className="overlay"
-          style={{ width: videoWidth, height: videoHeight }}
-        />
+        {playerState === 1 && (
+          <div
+            className="overlay"
+            style={{ width: videoWidth, height: videoHeight }}
+          />
+        )}
       </div>
       <div className="play__avatar">
         <Body stage={stage} modSelections={modSelections} />
         {isEvolving && <EvolutionGlow />}
       </div>
-      <div className="play__target">
-        {targetAnimal && (
-          <img
-            src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
-              " ",
-              "-"
-            )}.jpg`}
-          />
-        )}
-      </div>
-      <div className="play__instructions">
-        Help me find the{" "}
-        <span className="animal-name">{targetAnimal.name}</span>
-      </div>
+
+      {playerState === -1 ? (
+        <div className="play__intro">
+          <div className="text-box">
+            Help me find my friends. Start the video and then tap or click the
+            fish to spot them.
+          </div>
+        </div>
+      ) : (
+        <div className="play__target">
+          {targetAnimal && (
+            <img
+              src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
+                " ",
+                "-"
+              )}.jpg`}
+            />
+          )}
+        </div>
+      )}
+
+      {targetAnimal && playerState === 1 && (
+        <div className="play__instructions">
+          Help me find the{" "}
+          <span className="animal-name">{targetAnimal.name}</span>
+        </div>
+      )}
     </div>
   )
 }
