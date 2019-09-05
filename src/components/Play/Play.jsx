@@ -5,6 +5,7 @@ import Box from "../Box/Box"
 import Body from "../Body"
 import Spot from "../Spot/Spot"
 import EvolutionGlow from "../EvolutionGlow/EvolutionGlow"
+import SpottingConfirmation from "../SpottingConfirmation/SpottingConfirmation"
 import { getVideoDimensions } from "../../utils"
 
 const videoId = "4a2cSvTph0M"
@@ -65,6 +66,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [spot, setSpot] = useState(null)
   const [isEvolving, setIsEvolving] = useState(false)
   const [playerState, setPlayerState] = useState(-1)
+  const [isConfiriming, setIsConfirming] = useState(false)
   // -1 – unstarted
   // 0 – ended
   // 1 – playing
@@ -150,8 +152,10 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       const isTarget = boxToRender.labelIndex === targetAnimal.id
       if (isTarget) {
         spotType = "correct"
+        setIsConfirming(true)
         setTimeout(() => {
           onHitTarget(boxToRender.labelIndex)
+          setIsConfirming(false)
         }, 1000)
         setIsEvolving(true)
         setTimeout(() => {
@@ -205,7 +209,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
             onStateChange={onPlayerStateChange}
           />
         )}
-        {playerState === 1 && (
+        {playerState !== -1 && (
           <div
             className="overlay"
             style={{ width: videoWidth, height: videoHeight }}
@@ -220,27 +224,30 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       {playerState === -1 ? (
         <div className="play__intro">
           <div className="text-box">
-            Help me find my friends. Start the video and then tap or click the
-            fish to spot them.
+            <p className="brand-text">Help me find my friends.</p>
+            <p>Start the video and then tap or click the fish to spot them.</p>
           </div>
         </div>
       ) : (
         <div className="play__target">
           {targetAnimal && (
-            <img
-              src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
-                " ",
-                "-"
-              )}.jpg`}
-            />
+            <div className="play__target-image">
+              <img
+                src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
+                  " ",
+                  "-"
+                )}.jpg`}
+              />
+              {isConfiriming && <SpottingConfirmation />}
+            </div>
           )}
         </div>
       )}
 
-      {targetAnimal && playerState === 1 && (
+      {targetAnimal && playerState !== -1 && (
         <div className="play__instructions">
           Help me find the{" "}
-          <span className="animal-name">{targetAnimal.name}</span>
+          <span className="brand-text">{targetAnimal.name}</span>
         </div>
       )}
     </div>

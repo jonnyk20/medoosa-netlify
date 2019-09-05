@@ -32,9 +32,14 @@
     min-height: 150px;
     padding: 10px;
 
-    img {
-      width: 150px;
+    .play__target-image {
+      position: relative;
       margin-left: 10px;
+      width: 150px;
+
+      img {
+        width: 150px;
+      }
     }
   }
 
@@ -44,10 +49,14 @@
 
     .text-box {
       width: 150px;
-      margin-left: 30px;
-      color: skyblue;
       background: rgba(0, 0, 0, 0.687);
-      font-size: 18px;
+      font-size: 16px;
+
+      .brand-text {
+        color: skyblue;
+        font-weight: bold;
+        font-size: 18px;
+      }
     }
   }
 
@@ -55,7 +64,7 @@
     grid-column: 1 / -1;
     padding: 10px;
 
-    .animal-name {
+    .brand-text {
       font-weight: bold;
       color: skyblue;
     }
