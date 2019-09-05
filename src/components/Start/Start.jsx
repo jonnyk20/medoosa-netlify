@@ -1,17 +1,21 @@
 import React from "react"
-import ProgressBar from "../ProgressBar/ProgressBar"
 import Button from "../Button/Button"
+import { navigate } from "gatsby"
+import Body from "../Body"
 import "./Start.scss"
 
-const StartComponent = ({ loadModels, downloadProgress }) => {
-  return (
-    <div className="start">
-      <Button onClick={loadModels}>"Start"</Button>
-      {downloadProgress > 0 && downloadProgress < 1 && (
-        <ProgressBar progress={downloadProgress} />
-      )}
-    </div>
-  )
-}
+const startPlaying = () => navigate("/play")
 
-export default StartComponent
+const Start = ({ stage, modSelections }) => (
+  <div className="start">
+    <div className="start__avatar">
+      <Body stage={stage} modSelections={modSelections} />
+    </div>
+    <div className="start__instructions">
+      Help me find my friends. Tap or click the fish in the video to spot them.
+    </div>
+    <Button onClick={startPlaying}>Start</Button>
+  </div>
+)
+
+export default Start

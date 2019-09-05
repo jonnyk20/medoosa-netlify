@@ -15,7 +15,7 @@ const Head = () => (
         stroke: "#000",
         strokeMiterlimit: 10,
         strokeWidth: "5px",
-        transform: "translateY(-5px)",
+        transform: "translateY(-10px)",
       }}
     />
   </svg>

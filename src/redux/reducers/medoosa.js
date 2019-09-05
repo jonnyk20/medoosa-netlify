@@ -3,7 +3,6 @@ import mods from "../../components/Mods"
 
 const getRandomIndex = arr => Math.floor(Math.random() * arr.length)
 const initialValues = mods.map(getRandomIndex)
-console.log("initialValues", initialValues)
 
 const initialState = {
   name: "Medoosa",
