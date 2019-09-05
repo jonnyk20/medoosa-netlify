@@ -3,6 +3,8 @@ import YouTube from "react-youtube"
 import "./Play.scss"
 import Box from "../Box/Box"
 import Body from "../Body"
+import Spot from "../Spot/Spot"
+import EvolutionGlow from "../EvolutionGlow/EvolutionGlow"
 import { getVideoDimensions } from "../../utils"
 
 const videoId = "4a2cSvTph0M"
@@ -60,6 +62,8 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [videoDimensions, setVideoDimensions] = useState({})
   const [boxesVisible, setBoxVisible] = useState(false)
   const [targetBox, setTargetBox] = useState([])
+  const [spot, setSpot] = useState(null)
+  const [isEvolving, setIsEvolving] = useState(false)
   const videoRef = useRef()
 
   useEffect(() => {
@@ -132,10 +136,19 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
         }
       }
     })
+    let spotType = "miss"
     if (!!boxToRender) {
+      spotType = "incorrect"
       const isTarget = boxToRender.labelIndex === targetAnimal.id
       if (isTarget) {
-        onHitTarget(boxToRender.labelIndex)
+        spotType = "correct"
+        setTimeout(() => {
+          onHitTarget(boxToRender.labelIndex)
+        }, 1000)
+        setIsEvolving(true)
+        setTimeout(() => {
+          setIsEvolving(false)
+        }, 3000)
       }
       const targetBox = { isTarget, ...boxToRender } // used to show green or red
       setTargetBox(targetBox)
@@ -143,13 +156,22 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       setTimeout(() => {
         setBoxVisible(false)
       }, 100)
-    } else {
-      console.log("RENDER MISS CIRCLE")
     }
+
+    const spotProps = {
+      left: clientX,
+      top: clientY,
+      type: spotType,
+    }
+    setSpot(spotProps)
+    setTimeout(() => {
+      setSpot(null)
+    }, 500)
   }
 
   return (
     <div onClick={handleClick} className="play">
+      {spot && <Spot {...spot} />}
       <div
         className="play__video"
         style={{
@@ -169,6 +191,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       </div>
       <div className="play__avatar">
         <Body stage={stage} modSelections={modSelections} />
+        {isEvolving && <EvolutionGlow />}
       </div>
       <div className="play__target">
         {targetAnimal && (
@@ -179,6 +202,10 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
             )}.jpg`}
           />
         )}
+      </div>
+      <div className="play__instructions">
+        Help me find the{" "}
+        <span className="animal-name">{targetAnimal.name}</span>
       </div>
     </div>
   )

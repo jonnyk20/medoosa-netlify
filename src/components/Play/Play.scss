@@ -18,23 +18,34 @@
     }
   }
 
-  &__avatar,
-  &__target {
-    border: solid 1px white;
-  }
-
   &__avatar {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    min-height: 200px;
+    padding-right: 20px;
   }
 
   &__target {
     display: grid;
     align-items: center;
+    min-height: 150px;
+    padding: 10px;
 
     img {
       width: 150px;
       margin-left: 10px;
+    }
+  }
+
+  &__instructions {
+    grid-column: 1 / -1;
+    padding: 10px;
+
+    .animal-name {
+      font-weight: bold;
+      color: skyblue;
     }
   }
 }
