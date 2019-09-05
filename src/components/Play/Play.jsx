@@ -3,6 +3,8 @@ import YouTube from "react-youtube"
 import "./Play.scss"
 import Box from "../Box/Box"
 import Body from "../Body"
+import { navigate } from "gatsby"
+import Button from "../Button/Button"
 import Spot from "../Spot/Spot"
 import EvolutionGlow from "../EvolutionGlow/EvolutionGlow"
 import SpottingConfirmation from "../SpottingConfirmation/SpottingConfirmation"
@@ -58,6 +60,15 @@ const isBeingClicked = (bounds, box, clickTarget) => {
   const isWithinBounds = isWithinX && iswithinY
   return isWithinBounds
 }
+
+const introContent = (
+  <div className="play__intro">
+    <div className="text-box">
+      <p className="brand-text">Help me find my friends.</p>
+      <p>Start the video and then tap or click the fish to spot them.</p>
+    </div>
+  </div>
+)
 
 const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [video, setVideo] = useState(null)
@@ -193,6 +204,36 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   }
   console.log("playerState", playerState)
 
+  const targetContent = (
+    <div className="play__target">
+      {targetAnimal && (
+        <div className="play__target-image">
+          <img
+            src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
+              " ",
+              "-"
+            )}.jpg`}
+          />
+          {isConfiriming && <SpottingConfirmation />}
+        </div>
+      )}
+    </div>
+  )
+
+  const finishContent = (
+    <div className="play__finish">
+      <p class="brand-text">Well Done!</p>
+      <Button onClick={() => navigate("/share")}>Finish</Button>
+    </div>
+  )
+
+  const playContent =
+    stage >= 5
+      ? finishContent
+      : targetAnimal && playerState !== -1
+      ? targetContent
+      : introContent
+
   return (
     <div onClick={handleClick} className="play">
       {spot && <Spot {...spot} />}
@@ -224,30 +265,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
         <Body stage={stage} modSelections={modSelections} />
         {isEvolving && <EvolutionGlow />}
       </div>
-
-      {playerState === -1 ? (
-        <div className="play__intro">
-          <div className="text-box">
-            <p className="brand-text">Help me find my friends.</p>
-            <p>Start the video and then tap or click the fish to spot them.</p>
-          </div>
-        </div>
-      ) : (
-        <div className="play__target">
-          {targetAnimal && (
-            <div className="play__target-image">
-              <img
-                src={`https://jk-fish-test.s3.us-east-2.amazonaws.com/medoosa-stock/${targetAnimal.name.replace(
-                  " ",
-                  "-"
-                )}.jpg`}
-              />
-              {isConfiriming && <SpottingConfirmation />}
-            </div>
-          )}
-        </div>
-      )}
-
+      {playContent}
       {targetAnimal && playerState !== -1 && (
         <div className="play__instructions">
           Help me find the{" "}
