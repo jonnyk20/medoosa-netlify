@@ -104,6 +104,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       playlist: videoId,
       enablejsapi: 1,
       origin: "https://medoosa.netlify.com/",
+      playsinline: 1,
     },
   }
 
