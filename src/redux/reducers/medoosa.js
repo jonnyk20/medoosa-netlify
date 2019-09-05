@@ -1,4 +1,9 @@
 import { SET_MOD, ADVANCE_STAGE } from "../actions/actionTypes"
+import mods from "../../components/Mods"
+
+const getRandomIndex = arr => Math.floor(Math.random() * arr.length)
+const initialValues = mods.map(getRandomIndex)
+console.log("initialValues", initialValues)
 
 const initialState = {
   name: "Medoosa",
@@ -6,23 +11,23 @@ const initialState = {
   modSelections: [
     {
       name: "color",
-      value: 1,
+      value: initialValues[0],
     },
     {
       name: "eyes",
-      value: 6,
+      value: initialValues[1],
     },
     {
       name: "mouth",
-      value: 8,
+      value: initialValues[2],
     },
     {
       name: "arms",
-      value: 4,
+      value: initialValues[3],
     },
     {
       name: "head",
-      value: 4,
+      value: initialValues[4],
     },
   ],
 }
