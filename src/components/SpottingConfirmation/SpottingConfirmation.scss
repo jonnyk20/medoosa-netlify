@@ -9,10 +9,10 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  animation: fade 3s;
+  animation: fade 1s;
 
   &__circle {
-    background: rgba(0, 128, 0, 0.502);
+    background: green;
     height: 75%;
     width: 75%;
     display: flex;
@@ -27,11 +27,11 @@
     opacity: 0;
   }
 
-  30% {
+  25% {
     opacity: 1;
   }
 
-  70% {
+  75% {
     opacity: 1;
   }
 
