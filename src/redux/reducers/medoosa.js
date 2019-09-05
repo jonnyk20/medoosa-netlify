@@ -1,8 +1,4 @@
-import { SET_MOD, ADVANCE_STAGE } from "../actions/actionTypes"
-import mods from "../../components/Mods"
-
-const getRandomIndex = arr => Math.floor(Math.random() * arr.length)
-const initialValues = mods.map(getRandomIndex)
+import { SET_MOD, SET_MODS, ADVANCE_STAGE } from "../actions/actionTypes"
 
 const initialState = {
   name: "Medoosa",
@@ -10,23 +6,23 @@ const initialState = {
   modSelections: [
     {
       name: "color",
-      value: initialValues[0],
+      value: 0,
     },
     {
       name: "eyes",
-      value: initialValues[1],
+      value: 0,
     },
     {
       name: "mouth",
-      value: initialValues[2],
+      value: 0,
     },
     {
       name: "arms",
-      value: initialValues[3],
+      value: 0,
     },
     {
       name: "head",
-      value: initialValues[4],
+      value: 0,
     },
   ],
 }
@@ -44,6 +40,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SET_MOD:
       return updateMod(state, action.payload)
+    case SET_MODS:
+      return { ...state, modSelections: action.payload }
     case ADVANCE_STAGE:
       return { ...state, stage: state.stage + 1 }
     default:
