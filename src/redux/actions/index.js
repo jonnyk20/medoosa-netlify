@@ -7,6 +7,7 @@ import {
   SET_MODS,
   ADVANCE_STAGE,
   SET_TARGET,
+  SET_INITIALIZED,
 } from "./actionTypes"
 
 export const setDetectionModelAction = model => ({
@@ -46,4 +47,8 @@ export const advanceStageAction = () => ({
 export const setTargetAction = targetIndex => ({
   type: SET_TARGET,
   payload: targetIndex,
+})
+
+export const setInitalizedAction = () => ({
+  type: SET_INITIALIZED,
 })
