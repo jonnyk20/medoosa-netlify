@@ -52,8 +52,9 @@ const isBeingClicked = (bounds, box, clickTarget) => {
   const boxTop = top + box.top
   const boxBottom = boxTop + box.height
   const { clientX, clientY } = clickTarget
-  const isWithinX = clientX >= boxLeft && clientX <= boxRight
-  const iswithinY = clientY >= boxTop && clientY <= boxBottom
+  const radius = 15
+  const isWithinX = clientX + radius >= boxLeft && clientX - radius <= boxRight
+  const iswithinY = clientY + radius >= boxTop && clientY - radius <= boxBottom
   const isWithinBounds = isWithinX && iswithinY
   return isWithinBounds
 }
@@ -62,7 +63,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [video, setVideo] = useState(null)
   const [videoDimensions, setVideoDimensions] = useState({})
   const [boxesVisible, setBoxVisible] = useState(false)
-  const [targetBox, setTargetBox] = useState([])
+  const [targetBoxes, setTargetBoxes] = useState([])
   const [spot, setSpot] = useState(null)
   const [isEvolving, setIsEvolving] = useState(false)
   const [playerState, setPlayerState] = useState(-1)
@@ -116,7 +117,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
     const frameObject = frames[frameIndex]
     const boxes = frameObject ? frameObject.formattedBoxes : []
 
-    let boxToRender = null
+    let boxesToRender = []
     boxes.forEach((item, i) => {
       const topBox = item.coordinates
       const { labelIndex, score } = getClassification(item.classification)
@@ -135,7 +136,8 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       const shouldRender = isBeingClicked(OK, boxCoords, { clientX, clientY })
 
       if (shouldRender) {
-        boxToRender = {
+        const isTarget = labelIndex === targetAnimal.id
+        boxesToRender.push({
           left: boxX,
           top: boxY,
           height: boxH,
@@ -143,18 +145,21 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
           key: `box-${i}`,
           labelIndex,
           score,
-        }
+          isTarget,
+        })
       }
     })
     let spotType = "miss"
-    if (!!boxToRender) {
+    if (!!boxesToRender.length > 0) {
       spotType = "incorrect"
-      const isTarget = boxToRender.labelIndex === targetAnimal.id
-      if (isTarget) {
+      const hitTarget = boxesToRender.some(({ isTarget }) => isTarget)
+      if (hitTarget) {
         spotType = "correct"
         setIsConfirming(true)
         setTimeout(() => {
-          onHitTarget(boxToRender.labelIndex)
+          if (!isEvolving) {
+            onHitTarget(boxesToRender.labelIndex)
+          }
           setIsConfirming(false)
         }, 1000)
         setIsEvolving(true)
@@ -162,11 +167,10 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
           setIsEvolving(false)
         }, 3000)
       }
-      const targetBox = { isTarget, ...boxToRender } // used to show green or red
-      setTargetBox(targetBox)
-      setBoxVisible(true)
+      console.log("")
+      setTargetBoxes(boxesToRender)
       setTimeout(() => {
-        setBoxVisible(false)
+        setTargetBoxes([])
       }, 100)
     }
 
@@ -200,7 +204,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
         }}
         ref={videoRef}
       >
-        {boxesVisible && !!targetBox && <Box {...targetBox} />}
+        {targetBoxes.length > 0 && targetBoxes.map(box => <Box {...box} />)}
         {videoWidth && (
           <YouTube
             videoId={videoId}
