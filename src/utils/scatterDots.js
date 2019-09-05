@@ -4,7 +4,8 @@ function freshDot() {
   this.obj.style.top = window.innerHeight * Math.random() + "px"
   this.obj.style.left = window.innerWidth * Math.random() + "px"
 
-  document.body.appendChild(this.obj)
+  // document.body.prependChild(this.obj)
+  document.body.insertBefore(this.obj, document.body.firstChild)
 }
 
 const scatterDots = () => {

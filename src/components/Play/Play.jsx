@@ -178,7 +178,10 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   }
 
   const onPlayerStateChange = e => {
-    setPlayerState(e.data)
+    const state = e.data
+    if (state !== -1) {
+      setPlayerState(state)
+    }
   }
   console.log("playerState", playerState)
 
