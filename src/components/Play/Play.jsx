@@ -54,7 +54,7 @@ const isBeingClicked = (bounds, box, clickTarget) => {
   const boxTop = top + box.top
   const boxBottom = boxTop + box.height
   const { clientX, clientY } = clickTarget
-  const radius = 15
+  const radius = 25
   const isWithinX = clientX + radius >= boxLeft && clientX - radius <= boxRight
   const iswithinY = clientY + radius >= boxTop && clientY - radius <= boxBottom
   const isWithinBounds = isWithinX && iswithinY
