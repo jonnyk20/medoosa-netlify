@@ -47,6 +47,7 @@ const getClassification = arr => {
   }
 }
 
+const radius = 25
 const isBeingClicked = (bounds, box, clickTarget) => {
   const { top, left } = bounds
   const boxLeft = left + box.left
@@ -54,7 +55,7 @@ const isBeingClicked = (bounds, box, clickTarget) => {
   const boxTop = top + box.top
   const boxBottom = boxTop + box.height
   const { clientX, clientY } = clickTarget
-  const radius = 25
+
   const isWithinX = clientX + radius >= boxLeft && clientX - radius <= boxRight
   const iswithinY = clientY + radius >= boxTop && clientY - radius <= boxBottom
   const isWithinBounds = isWithinX && iswithinY
@@ -73,7 +74,6 @@ const introContent = (
 const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [video, setVideo] = useState(null)
   const [videoDimensions, setVideoDimensions] = useState({})
-  const [boxesVisible, setBoxVisible] = useState(false)
   const [targetBoxes, setTargetBoxes] = useState([])
   const [spot, setSpot] = useState(null)
   const [isEvolving, setIsEvolving] = useState(false)
@@ -122,7 +122,6 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   }
 
   const drawBoxes = (frameIndex, { clientX, clientY }) => {
-    console.log("CLICK")
     const { current: canvas } = videoRef
     const OK = canvas.getBoundingClientRect()
 
@@ -179,7 +178,6 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
           setIsEvolving(false)
         }, 3000)
       }
-      console.log("")
       setTargetBoxes(boxesToRender)
       setTimeout(() => {
         setTargetBoxes([])
@@ -191,6 +189,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
       top: clientY,
       type: spotType,
     }
+
     setSpot(spotProps)
     setTimeout(() => {
       setSpot(null)
@@ -237,7 +236,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
 
   return (
     <div onClick={handleClick} className="play">
-      {spot && <Spot {...spot} />}
+      {spot && <Spot {...spot} radius={radius} />}
       <div
         className="play__video"
         style={{
@@ -255,7 +254,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
             onStateChange={onPlayerStateChange}
           />
         )}
-        {playerState !== -1 && (
+        {(playerState === 1 || playerState === 3) && (
           <div
             className="overlay"
             style={{ width: videoWidth, height: videoHeight }}
