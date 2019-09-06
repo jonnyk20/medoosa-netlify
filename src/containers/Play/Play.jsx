@@ -45,9 +45,8 @@ const PlayContainer = () => {
     const availableAnimals = getFilteredTargetList(animalsToIgnore)
     const nextAnimal = getRandomItem(availableAnimals)
     dispatch(advanceStageAction())
-    if (nextAnimal) {
-      dispatch(setTargetAction(nextAnimal))
-    }
+
+    dispatch(setTargetAction(nextAnimal))
   }
 
   useEffect(() => {
