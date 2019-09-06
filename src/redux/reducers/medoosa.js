@@ -1,4 +1,4 @@
-import { SET_MOD, SET_MODS, ADVANCE_STAGE } from "../actions/actionTypes"
+import { SET_MOD, SET_MODS, ADVANCE_STAGE, RESET } from "../actions/actionTypes"
 
 const initialState = {
   name: "Medoosa",
@@ -44,6 +44,8 @@ export default (state = initialState, action) => {
       return { ...state, modSelections: action.payload }
     case ADVANCE_STAGE:
       return { ...state, stage: state.stage + 1 }
+    case RESET:
+      return { ...state, stage: 0 }
     default:
       return state
   }

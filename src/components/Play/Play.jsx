@@ -164,13 +164,13 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
     let spotType = "miss"
     if (!!boxesToRender.length > 0) {
       spotType = "incorrect"
-      const hitTarget = boxesToRender.some(({ isTarget }) => isTarget)
-      if (hitTarget) {
+      const hitTarget = boxesToRender.find(({ isTarget }) => isTarget)
+      if (!!hitTarget) {
         spotType = "correct"
         setIsConfirming(true)
         setTimeout(() => {
           if (!isEvolving) {
-            onHitTarget(boxesToRender.labelIndex)
+            onHitTarget(hitTarget.labelIndex)
           }
           setIsConfirming(false)
         }, 1000)

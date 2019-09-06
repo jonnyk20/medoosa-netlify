@@ -41,7 +41,7 @@ const PlayContainer = () => {
 
   const onHitTarget = hitTargetIndex => {
     dispatch(addFoundAnimalAction(hitTargetIndex))
-    const animalsToIgnore = [...Array.from(foundAnimals), hitTargetIndex]
+    const animalsToIgnore = Array.from(foundAnimals)
     const availableAnimals = getFilteredTargetList(animalsToIgnore)
     const nextAnimal = getRandomItem(availableAnimals)
     dispatch(setTargetAction(nextAnimal))

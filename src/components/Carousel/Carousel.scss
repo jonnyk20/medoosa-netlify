@@ -28,18 +28,20 @@
       outline: none;
     }
   }
-}
 
-.slick-current {
-  transform: scale(1.1);
-  color: blue;
-  z-index: 2;
+  .slick-current {
+    transform: scale(1.1);
+    color: blue;
+    z-index: 2;
 
-  .carousel__item {
-    border-width: 3px;
-    animation: pulse 1s infinite;
+    .carousel__item {
+      border-width: 3px;
+      animation: pulse 1s infinite;
+    }
   }
+
 }
+
 
 @keyframes pulse {
   0% {

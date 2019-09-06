@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@material-ui/core": "^4.4.0",
     "@tensorflow/tfjs": "^1.2.6",
     "@tensorflow/tfjs-converter": "^1.2.7",
     "gatsby": "^2.13.50",
