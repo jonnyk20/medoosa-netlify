@@ -41,11 +41,13 @@ const PlayContainer = () => {
 
   const onHitTarget = hitTargetIndex => {
     dispatch(addFoundAnimalAction(hitTargetIndex))
-    const animalsToIgnore = Array.from(foundAnimals)
+    const animalsToIgnore = [...Array.from(foundAnimals), hitTargetIndex]
     const availableAnimals = getFilteredTargetList(animalsToIgnore)
     const nextAnimal = getRandomItem(availableAnimals)
-    dispatch(setTargetAction(nextAnimal))
     dispatch(advanceStageAction())
+    if (nextAnimal) {
+      dispatch(setTargetAction(nextAnimal))
+    }
   }
 
   useEffect(() => {

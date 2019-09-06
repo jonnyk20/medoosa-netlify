@@ -1,6 +1,6 @@
 import animalsData from "./animal-data"
 
-const ignoreListDefault = [6, 8, 7]
+const ignoreListDefault = [2, 6, 8 /**/, 7, 5]
 
 export default (ignoreList = []) =>
   animalsData
