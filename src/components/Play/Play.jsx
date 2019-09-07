@@ -78,7 +78,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   const [spot, setSpot] = useState(null)
   const [isEvolving, setIsEvolving] = useState(false)
   const [playerState, setPlayerState] = useState(-1)
-  const [isConfiriming, setIsConfirming] = useState(false)
+  const [isConfirming, setIsConfirming] = useState(false)
   // -1 – unstarted
   // 0 – ended
   // 1 – playing
@@ -86,10 +86,15 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   // 3 – buffering
   // 5 – video cued
   const videoRef = useRef()
+  const componentIsMounted = useRef(true)
 
   useEffect(() => {
     const dimensions = getVideoDimensions(window.innerWidth)
     setVideoDimensions(dimensions)
+    return () => {
+      componentIsMounted.current = false
+      console.log("UNMOUNT")
+    }
   }, [])
 
   const { width: videoWidth, height: videoHeight } = videoDimensions
@@ -116,6 +121,9 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
 
   const handleClick = e => {
     const { clientX, clientY } = e
+    if (isConfirming || isEvolving || !!spot) {
+      return
+    }
     const time = video.getCurrentTime()
     const frames = Math.floor(time * 5)
     drawBoxes(frames + 1, { clientX, clientY })
@@ -168,11 +176,13 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
         spotType = "correct"
         setIsConfirming(true)
         setTimeout(() => {
-          if (!isEvolving) {
-            onHitTarget(hitTarget.labelIndex)
-          }
           setIsConfirming(false)
-        }, 1000)
+        }, 3000)
+        if (!isEvolving) {
+          setTimeout(() => {
+            onHitTarget(hitTarget.labelIndex)
+          }, 1500)
+        }
         setIsEvolving(true)
         setTimeout(() => {
           setIsEvolving(false)
@@ -197,9 +207,12 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
   }
 
   const onPlayerStateChange = e => {
-    const state = e.data
-    if (state !== -1) {
-      setPlayerState(state)
+    if (componentIsMounted.current) {
+      const state = e.data
+      // TODO: Error state if video not playing properly
+      if (state !== -1) {
+        setPlayerState(state)
+      }
     }
   }
   console.log("playerState", playerState)
@@ -214,7 +227,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
               "-"
             )}.jpg`}
           />
-          {isConfiriming && <SpottingConfirmation />}
+          {isConfirming && <SpottingConfirmation />}
         </div>
       )}
     </div>
@@ -222,7 +235,7 @@ const Play = ({ frames, stage, modSelections, targetAnimal, onHitTarget }) => {
 
   const finishContent = (
     <div className="play__finish">
-      <p class="brand-text">Well Done!</p>
+      <p className="brand-text">Well Done!</p>
       <Button onClick={() => navigate("/share")}>Finish</Button>
     </div>
   )
